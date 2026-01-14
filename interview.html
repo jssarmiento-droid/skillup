@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Entrevista - SkillUp</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .prep-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .checklist-item {
+            display: flex;
+            align-items: center;
+            background: white;
+            padding: 1rem;
+            margin-bottom: 0.5rem;
+            border-radius: var(--radius-sm);
+            border: 1px solid #E5E7EB;
+            cursor: pointer;
+        }
+
+        .checklist-item input {
+            margin-right: 1rem;
+            transform: scale(1.2);
+        }
+
+        .question-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: var(--radius-md);
+            border: 1px solid #E5E7EB;
+            margin-bottom: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .question-card:hover {
+            border-color: var(--primary-color);
+        }
+
+        .question-header {
+            font-weight: 600;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .answer-tip {
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px dashed #E5E7EB;
+            color: var(--text-muted);
+            display: none;
+        }
+
+        .question-card.active .answer-tip {
+            display: block;
+        }
+
+        .toggle-icon {
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+    </style>
+</head>
+
+<body style="background: #F9FAFB;">
+
+    <nav class="navbar">
+        <div class="container nav-container">
+            <a href="dashboard.html" class="logo">SkillUp</a>
+            <div class="nav-links">
+                <a href="dashboard.html">Volver al Panel</a>
+            </div>
+        </div>
+    </nav>
+
+    <header style="background: white; padding: 2rem 0; border-bottom: 1px solid #E5E7EB; margin-bottom: 2rem;">
+        <div class="container">
+            <h1>Simulador y Tips de Entrevista</h1>
+            <p style="color: var(--text-muted);">Prepárate para destacar en tu próxima reunión.</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="prep-grid">
+
+            <!-- Checklist Section -->
+            <section>
+                <h2 style="margin-bottom: 1.5rem;">Checklist Antes de la Entrevista</h2>
+                <div class="checklist">
+                    <label class="checklist-item">
+                        <input type="checkbox"> Investigar sobre la empresa y su cultura.
+                    </label>
+                    <label class="checklist-item">
+                        <input type="checkbox"> Revisar la descripción del puesto.
+                    </label>
+                    <label class="checklist-item">
+                        <input type="checkbox"> Preparar tu vestimenta (formal/casual).
+                    </label>
+                    <label class="checklist-item">
+                        <input type="checkbox"> Verificar conexión y cámara (si es virtual).
+                    </label>
+                    <label class="checklist-item">
+                        <input type="checkbox"> Tener copia de tu CV a la mano.
+                    </label>
+                    <label class="checklist-item">
+                        <input type="checkbox"> Preparar preguntas para el entrevistador.
+                    </label>
+                </div>
+            </section>
+
+            <!-- Questions Simulator -->
+            <section>
+                <h2 style="margin-bottom: 1.5rem;">Preguntas Frecuentes</h2>
+                <p style="margin-bottom: 1rem; font-size: 0.9rem; color: var(--text-muted);">Haz clic para ver consejos
+                    de cómo responder.</p>
+
+                <div class="question-card" onclick="this.classList.toggle('active')">
+                    <div class="question-header">
+                        ¿Cuéntame sobre ti?
+                        <span class="toggle-icon">+</span>
+                    </div>
+                    <div class="answer-tip">
+                        <strong>Tip:</strong> No recites tu CV. Habla de tu pasión por el área, una experiencia clave
+                        reciente y por qué te interesa este rol. Manténlo bajo 2 minutos.
+                    </div>
+                </div>
+
+                <div class="question-card" onclick="this.classList.toggle('active')">
+                    <div class="question-header">
+                        ¿Cuál es tu mayor debilidad?
+                        <span class="toggle-icon">+</span>
+                    </div>
+                    <div class="answer-tip">
+                        <strong>Tip:</strong> Elige una debilidad real pero no crítica. Enfócate en cómo estás
+                        trabajando para mejorarla. (Ej: "A veces me cuesta delegar, pero uso herramientas como Trello
+                        para organizarme mejor").
+                    </div>
+                </div>
+
+                <div class="question-card" onclick="this.classList.toggle('active')">
+                    <div class="question-header">
+                        ¿Dónde te ves en 5 años?
+                        <span class="toggle-icon">+</span>
+                    </div>
+                    <div class="answer-tip">
+                        <strong>Tip:</strong> Muestra ambición pero alineada con la empresa. "Espero haber crecido en
+                        roles de liderazgo dentro de este sector, aportando valor en proyectos grandes".
+                    </div>
+                </div>
+
+                <div class="question-card" onclick="this.classList.toggle('active')">
+                    <div class="question-header">
+                        ¿Por qué deberíamos contratarte?
+                        <span class="toggle-icon">+</span>
+                    </div>
+                    <div class="answer-tip">
+                        <strong>Tip:</strong> Conecta tus habilidades blandas (soft skills) con las necesidades de la
+                        empresa. "Por mi capacidad de adaptación rápida y mi experiencia previa en..."
+                    </div>
+                </div>
+
+            </section>
+        </div>
+    </main>
+</body>
+
+</html>

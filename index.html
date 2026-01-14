@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SkillUp - Mejora tus Habilidades Blandas</title>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@700;800&display=swap"
+        rel="stylesheet">
+    <!-- Styles -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container nav-container">
+            <a href="index.html" class="logo">SkillUp</a>
+            <ul class="nav-links">
+                <li><a href="index.html" class="active">Inicio</a></li>
+                <li><a href="#features">Características</a></li>
+                <li><a href="auth.html" class="btn btn-primary">Empezar Ahora</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header style="padding: 6rem 0; text-align: center;">
+        <div class="container">
+            <h1
+                style="font-size: 3.5rem; margin-bottom: 1.5rem; max-width: 800px; margin-left: auto; margin-right: auto;">
+                Domina las Habilidades que <br> <span style="color: var(--primary-color);">Buscan las Empresas</span>
+            </h1>
+            <p style="font-size: 1.25rem; color: var(--text-muted); max-width: 600px; margin: 0 auto 2.5rem;">
+                Tu plataforma todo en uno para crear una hoja de vida impactante, preparar entrevistas y encontrar tu
+                próximo empleo.
+            </p>
+            <div style="display: flex; gap: 1rem; justify-content: center;">
+                <a href="auth.html" class="btn btn-primary">Crear Cuenta Gratis</a>
+                <a href="#more" class="btn btn-secondary">Saber Más</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Educational Section: What are Soft Skills? -->
+    <section style="padding: 4rem 0; background: white;">
+        <div class="container">
+            <div style="text-align: center; max-width: 800px; margin: 0 auto 4rem;">
+                <h2 style="font-size: 2.5rem; margin-bottom: 1rem;">¿Qué son las Habilidades Blandas?</h2>
+                <p style="color: var(--text-muted); font-size: 1.1rem;">
+                    Son las competencias interpersonales que definen cómo trabajas e interactúas con los demás.
+                    A diferencia de las habilidades técnicas (hard skills), estas son transversales y críticas para el
+                    éxito a largo plazo.
+                </p>
+            </div>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 3rem;">
+                <!-- Skill 1 -->
+                <div style="display: flex; gap: 1rem;">
+                    <div
+                        style="background: #EEF2FF; width: 50px; height: 50px; border-radius: 12px; display: flex; align-items: center; justify-content: center; color: var(--primary-color); font-size: 1.5rem; flex-shrink: 0;">
+                        🗣️</div>
+                    <div>
+                        <h3 style="margin-bottom: 0.5rem;">Comunicación Efectiva</h3>
+                        <p style="color: var(--text-muted); font-size: 0.95rem;">
+                            No es solo hablar, es escuchar activamente. Aprende a transmitir tus ideas con claridad y a
+                            recibir feedback de manera constructiva.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Skill 2 -->
+                <div style="display: flex; gap: 1rem;">
+                    <div
+                        style="background: #FCE7F3; width: 50px; height: 50px; border-radius: 12px; display: flex; align-items: center; justify-content: center; color: var(--secondary-color); font-size: 1.5rem; flex-shrink: 0;">
+                        🤝</div>
+                    <div>
+                        <h3 style="margin-bottom: 0.5rem;">Trabajo en Equipo</h3>
+                        <p style="color: var(--text-muted); font-size: 0.95rem;">
+                            La capacidad de colaborar, resolver conflictos y potenciar el talento de tus compañeros para
+                            lograr objetivos comunes.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Skill 3 -->
+                <div style="display: flex; gap: 1rem;">
+                    <div
+                        style="background: #ECFDF5; width: 50px; height: 50px; border-radius: 12px; display: flex; align-items: center; justify-content: center; color: #10B981; font-size: 1.5rem; flex-shrink: 0;">
+                        🧠</div>
+                    <div>
+                        <h3 style="margin-bottom: 0.5rem;">Adaptabilidad</h3>
+                        <p style="color: var(--text-muted); font-size: 0.95rem;">
+                            En un mundo cambiante, la flexibilidad mental para aprender cosas nuevas y ajustarse a
+                            nuevos retos es vital.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" style="padding: 4rem 0; background-color: var(--bg-body);">
+        <div class="container">
+            <h2 style="text-align: center; margin-bottom: 3rem; font-size: 2.5rem;">Todo lo que necesitas para destacar
+            </h2>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
+                <!-- Feature 1 -->
+                <article class="card">
+                    <div style="font-size: 2rem; margin-bottom: 1rem;">📄</div>
+                    <h3>Constructor de Hoja de Vida</h3>
+                    <p style="color: var(--text-muted); margin-top: 0.5rem;">
+                        Recibe consejos paso a paso para estructurar tu CV y resaltar tus fortalezas profesionales.
+                    </p>
+                </article>
+
+                <!-- Feature 2 -->
+                <article class="card">
+                    <div style="font-size: 2rem; margin-bottom: 1rem;">🤝</div>
+                    <h3>Simulador de Entrevistas</h3>
+                    <p style="color: var(--text-muted); margin-top: 0.5rem;">
+                        Practica con preguntas reales y aprende cómo desenvolverte con confianza ante reclutadores.
+                    </p>
+                </article>
+
+                <!-- Feature 3 -->
+                <article class="card">
+                    <div style="font-size: 2rem; margin-bottom: 1rem;">🚀</div>
+                    <h3>Ofertas Laborales</h3>
+                    <p style="color: var(--text-muted); margin-top: 0.5rem;">
+                        Accede a oportunidades exclusivas para estudiantes y perfiles junior.
+                    </p>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 SkillUp. Potencia tu carrera profesional.</p>
+        </div>
+    </footer>
+
+    <script src="js/app.js"></script>
+</body>
+
+</html>

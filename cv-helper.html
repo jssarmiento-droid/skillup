@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Constructor de CV - SkillUp</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .split-layout {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 2rem;
+            align-items: start;
+        }
+
+        @media (max-width: 768px) {
+            .split-layout {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .tips-sidebar {
+            background: #EFF6FF;
+            padding: 1.5rem;
+            border-radius: var(--radius-md);
+            border: 1px solid #DBEAFE;
+        }
+
+        .tips-sidebar h3 {
+            color: #1E40AF;
+            margin-bottom: 1rem;
+        }
+
+        .tips-list li {
+            margin-bottom: 0.75rem;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .tips-list li::before {
+            content: "✓";
+            color: #2563EB;
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+        }
+
+        .cv-form-section {
+            background: white;
+            padding: 2rem;
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-sm);
+            margin-bottom: 2rem;
+        }
+
+        textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #E5E7EB;
+            border-radius: var(--radius-sm);
+            font-family: inherit;
+            min-height: 100px;
+            resize: vertical;
+        }
+    </style>
+</head>
+
+<body style="background: #F9FAFB;">
+
+    <nav class="navbar">
+        <div class="container nav-container">
+            <a href="dashboard.html" class="logo">SkillUp</a>
+            <div class="nav-links">
+                <a href="dashboard.html">Volver al Panel</a>
+            </div>
+        </div>
+    </nav>
+
+    <header style="background: white; padding: 2rem 0; border-bottom: 1px solid #E5E7EB; margin-bottom: 2rem;">
+        <div class="container">
+            <h1>Constructor de Hoja de Vida</h1>
+            <p style="color: var(--text-muted);">Sigue nuestra estructura probada para destacar tu perfil.</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="split-layout">
+
+            <!-- Sidebar Tips -->
+            <aside class="tips-sidebar">
+                <h3>Tips de Experto</h3>
+                <ul class="tips-list">
+                    <li>Usa verbos de acción (Lideré, Creé, Optimicé).</li>
+                    <li>Cuantifica tus logros (ej: "Aumenté las ventas un 20%").</li>
+                    <li>Adapta tu perfil a la oferta de trabajo.</li>
+                    <li>Mantén el diseño limpio y fácil de leer.</li>
+                    <li>Revisa la ortografía dos veces.</li>
+                </ul>
+                <div style="margin-top: 2rem;">
+                    <h4>Palabras Clave Sugeridas:</h4>
+                    <div style="display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.5rem;">
+                        <span
+                            style="background: white; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.8rem;">Liderazgo</span>
+                        <span
+                            style="background: white; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.8rem;">Trabajo
+                            en equipo</span>
+                        <span
+                            style="background: white; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.8rem;">Resolución
+                            de problemas</span>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Form Content -->
+            <div class="cv-builder">
+                <!-- Profile Section -->
+                <section class="cv-form-section">
+                    <h2 style="margin-bottom: 1rem;">1. Perfil Profesional</h2>
+                    <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 1rem;">
+                        Un breve resumen de quién eres y qué aportas (máx 3-4 líneas).
+                    </p>
+                    <textarea
+                        placeholder="Ej: Estudiante de Administración con pasión por el marketing digital y experiencia liderando proyectos universitarios..."></textarea>
+                </section>
+
+                <!-- Experience Section -->
+                <section class="cv-form-section">
+                    <h2 style="margin-bottom: 1rem;">2. Experiencia / Proyectos</h2>
+                    <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 1rem;">
+                        Incluye prácticas, voluntariados o proyectos académicos relevantes.
+                    </p>
+                    <div class="form-group">
+                        <label>Título del Rol</label>
+                        <input type="text" placeholder="Ej: Líder de Proyecto de Grado"
+                            style="width: 100%; padding: 0.5rem; margin-bottom: 1rem; border: 1px solid #ddd;">
+                        <textarea placeholder="Describe tus responsabilidades y logros..."></textarea>
+                    </div>
+                </section>
+
+                <!-- Education Section -->
+                <section class="cv-form-section">
+                    <h2 style="margin-bottom: 1rem;">3. Educación</h2>
+                    <input type="text" placeholder="Institución Educativa"
+                        style="width: 100%; padding: 0.5rem; margin-bottom: 0.5rem; border: 1px solid #ddd;">
+                    <input type="text" placeholder="Título obtenido / En curso"
+                        style="width: 100%; padding: 0.5rem; margin-bottom: 0.5rem; border: 1px solid #ddd;">
+                </section>
+
+                <div style="text-align: right; margin-bottom: 3rem;">
+                    <button class="btn btn-secondary" onclick="window.print()">Descargar / Imprimir</button>
+                    <button class="btn btn-primary" onclick="alert('¡Borrador Guardado!')">Guardar Progreso</button>
+                </div>
+            </div>
+
+        </div>
+    </main>
+</body>
+
+</html>

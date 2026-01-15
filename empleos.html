@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ofertas Laborales - SkillUp</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .search-container {
+            background: white;
+            padding: 1.5rem;
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-sm);
+            margin-bottom: 3rem;
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .search-input {
+            flex: 1;
+            padding: 0.75rem;
+            border: 1px solid #E5E7EB;
+            border-radius: var(--radius-sm);
+            font-family: inherit;
+        }
+
+        .jobs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .job-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: var(--radius-md);
+            border: 1px solid #E5E7EB;
+            transition: var(--transition-smooth);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .job-card:hover {
+            border-color: var(--primary-color);
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .job-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+        }
+
+        .company-logo {
+            width: 50px;
+            height: 50px;
+            background: #F3F4F6;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+
+        .job-title {
+            font-weight: 700;
+            font-size: 1.1rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .company-name {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        .job-tags {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .tag {
+            font-size: 0.75rem;
+            padding: 0.25rem 0.5rem;
+            background: #EFF6FF;
+            color: #1D4ED8;
+            border-radius: 4px;
+        }
+
+        .job-footer {
+            margin-top: auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+    </style>
+</head>
+
+<body style="background: #F9FAFB;">
+
+    <nav class="navbar">
+        <div class="container nav-container">
+            <a href="menu.html" class="logo">SkillUp</a>
+            <div class="nav-links">
+                <a href="menu.html">Volver al Panel</a>
+            </div>
+        </div>
+    </nav>
+
+    <header style="background: white; padding: 2rem 0; border-bottom: 1px solid #E5E7EB; margin-bottom: 2rem;">
+        <div class="container">
+            <h1>Bolsa de Empleo Junior</h1>
+            <p style="color: var(--text-muted);">Oportunidades seleccionadas para estudiantes y recién egresados.</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <!-- Search -->
+        <div class="search-container">
+            <input type="text" class="search-input" placeholder="Cargo o palabra clave (ej: Analista, Diseño)">
+            <input type="text" class="search-input" placeholder="Ubicación (ej: Remoto, Bogotá)">
+            <button class="btn btn-primary" onclick="alert('Funcionalidad de búsqueda simulada')">Buscar</button>
+        </div>
+
+        <!-- Jobs Grid -->
+        <div class="jobs-grid">
+
+            <!-- Job 1 -->
+            <article class="job-card">
+                <div class="job-header">
+                    <div>
+                        <h3 class="job-title">Pasante de Marketing</h3>
+                        <div class="company-name">TechStart Solutions</div>
+                    </div>
+                    <div class="company-logo">TS</div>
+                </div>
+                <div class="job-tags">
+                    <span class="tag">Sin Experiencia</span>
+                    <span class="tag">Remoto</span>
+                    <span class="tag">Marketing</span>
+                </div>
+                <p style="font-size: 0.9rem; margin-bottom: 1.5rem;">
+                    Buscamos estudiantes creativos para apoyar en redes sociales y creación de contenido.
+                </p>
+                <div class="job-footer">
+                    <span>Hace 2 días</span>
+                    <button class="btn btn-primary" onclick="applyJob(this)">Aplicar</button>
+                </div>
+            </article>
+
+            <!-- Job 2 -->
+            <article class="job-card">
+                <div class="job-header">
+                    <div>
+                        <h3 class="job-title">Desarrollador Junior</h3>
+                        <div class="company-name">CodeWorks</div>
+                    </div>
+                    <div class="company-logo">CW</div>
+                </div>
+                <div class="job-tags">
+                    <span class="tag">Junior</span>
+                    <span class="tag">Híbrido</span>
+                    <span class="tag">Desarrollo</span>
+                </div>
+                <p style="font-size: 0.9rem; margin-bottom: 1.5rem;">
+                    Únete a nuestro equipo de producto. Buscamos conocimientos en HTML, CSS y JS básico.
+                </p>
+                <div class="job-footer">
+                    <span>Hace 1 día</span>
+                    <button class="btn btn-primary" onclick="applyJob(this)">Aplicar</button>
+                </div>
+            </article>
+
+            <!-- Job 3 -->
+            <article class="job-card">
+                <div class="job-header">
+                    <div>
+                        <h3 class="job-title">Asistente Administrativo</h3>
+                        <div class="company-name">Grupo Global</div>
+                    </div>
+                    <div class="company-logo">GG</div>
+                </div>
+                <div class="job-tags">
+                    <span class="tag">Prácticas</span>
+                    <span class="tag">Presencial</span>
+                </div>
+                <p style="font-size: 0.9rem; margin-bottom: 1.5rem;">
+                    Apoyo en gestión documental y atención al cliente. Excelente ambiente laboral.
+                </p>
+                <div class="job-footer">
+                    <span>Hace 5 horas</span>
+                    <button class="btn btn-primary" onclick="applyJob(this)">Aplicar</button>
+                </div>
+            </article>
+
+            <!-- Job 4 -->
+            <article class="job-card">
+                <div class="job-header">
+                    <div>
+                        <h3 class="job-title">Diseñador UX/UI Trainee</h3>
+                        <div class="company-name">Creative Minds</div>
+                    </div>
+                    <div class="company-logo">CM</div>
+                </div>
+                <div class="job-tags">
+                    <span class="tag">Part-time</span>
+                    <span class="tag">Remoto</span>
+                    <span class="tag">Diseño</span>
+                </div>
+                <p style="font-size: 0.9rem; margin-bottom: 1.5rem;">
+                    Aprende creando interfaces para aplicaciones móviles reales. Mentoría incluida.
+                </p>
+                <div class="job-footer">
+                    <span>Hace 3 días</span>
+                    <button class="btn btn-primary" onclick="applyJob(this)">Aplicar</button>
+                </div>
+            </article>
+
+        </div>
+    </main>
+
+    <script>
+        function applyJob(btn) {
+            btn.textContent = '¡Aplicado!';
+            btn.style.background = '#10B981'; // Green
+            btn.disabled = true;
+            alert('Has aplicado exitosamente a esta oferta. La empresa te contactará pronto.');
+        }
+    </script>
+</body>
+
+</html>

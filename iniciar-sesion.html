@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acceso - SkillUp</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .auth-container {
+            min-height: 80vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        .auth-card {
+            max-width: 450px;
+            width: 100%;
+            background: white;
+            padding: 2.5rem;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--text-main);
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #E5E7EB;
+            border-radius: var(--radius-sm);
+            font-family: inherit;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+        }
+
+        .auth-tabs {
+            display: flex;
+            margin-bottom: 2rem;
+            border-bottom: 1px solid #E5E7EB;
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 1rem;
+            border: none;
+            background: none;
+            font-weight: 600;
+            color: var(--text-muted);
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+        }
+
+        .tab-btn.active {
+            color: var(--primary-color);
+            border-bottom-color: var(--primary-color);
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+
+<body style="background: #F3F4F6;">
+
+    <nav class="navbar">
+        <div class="container nav-container">
+            <a href="index.html" class="logo">SkillUp</a>
+        </div>
+    </nav>
+
+    <div class="auth-container">
+        <div class="auth-card">
+            <div class="auth-tabs">
+                <button class="tab-btn active" onclick="switchTab('register')">Registrarse</button>
+                <button class="tab-btn" onclick="switchTab('login')">Iniciar Sesión</button>
+            </div>
+
+            <!-- Register Form -->
+            <form id="register-form" onsubmit="handleRegister(event)">
+                <h2 style="margin-bottom: 1.5rem;">Crea tu cuenta gratis</h2>
+
+                <div class="form-group">
+                    <label for="reg-name">Nombre Completo</label>
+                    <input type="text" id="reg-name" required placeholder="Ej: Juan Pérez">
+                </div>
+
+                <div class="form-group">
+                    <label for="reg-email">Correo Electrónico</label>
+                    <input type="email" id="reg-email" required placeholder="juan@ejemplo.com">
+                </div>
+
+                <div class="form-group">
+                    <label for="reg-career">Carrera / Área de interés</label>
+                    <input type="text" id="reg-career" required placeholder="Ej: Ingeniería de Sistemas">
+                </div>
+
+                <div class="form-group">
+                    <label for="reg-pass">Contraseña</label>
+                    <input type="password" id="reg-pass" required>
+                </div>
+
+                <button type="submit" class="btn btn-primary" style="width: 100%;">Registrarse</button>
+            </form>
+
+            <!-- Login Form -->
+            <form id="login-form" class="hidden" onsubmit="handleLogin(event)">
+                <h2 style="margin-bottom: 1.5rem;">Bienvenido de nuevo</h2>
+
+                <div class="form-group">
+                    <label for="login-email">Correo Electrónico</label>
+                    <input type="email" id="login-email" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="login-pass">Contraseña</label>
+                    <input type="password" id="login-pass" required>
+                </div>
+
+                <button type="submit" class="btn btn-primary" style="width: 100%;">Iniciar Sesión</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="js/app.js"></script>
+    <script>
+        function switchTab(tab) {
+            const regForm = document.getElementById('register-form');
+            const loginForm = document.getElementById('login-form');
+            const btns = document.querySelectorAll('.tab-btn');
+
+            if (tab === 'register') {
+                regForm.classList.remove('hidden');
+                loginForm.classList.add('hidden');
+                btns[0].classList.add('active');
+                btns[1].classList.remove('active');
+            } else {
+                regForm.classList.add('hidden');
+                loginForm.classList.remove('hidden');
+                btns[0].classList.remove('active');
+                btns[1].classList.add('active');
+            }
+        }
+
+        function handleRegister(e) {
+            e.preventDefault();
+            const name = document.getElementById('reg-name').value;
+            const career = document.getElementById('reg-career').value;
+
+            // Save to localStorage
+            const user = { name, career, progress: 0 };
+            localStorage.setItem('softSkillsUser', JSON.stringify(user));
+
+            alert('¡Cuenta creada con éxito!');
+            window.location.href = 'menu.html';
+        }
+
+        function handleLogin(e) {
+            e.preventDefault();
+            // Mock login - allow anyone for demo
+            const savedUser = localStorage.getItem('softSkillsUser');
+            if (savedUser) {
+                window.location.href = 'menu.html';
+            } else {
+                // Determine logic if no user exists, maybe creating a dummy one
+                const dummyName = document.getElementById('login-email').value.split('@')[0];
+                const user = { name: dummyName, career: 'Estudiante', progress: 0 };
+                localStorage.setItem('softSkillsUser', JSON.stringify(user));
+                window.location.href = 'menu.html';
+            }
+        }
+    </script>
+</body>
+
+</html>

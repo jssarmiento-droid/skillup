@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard - SkillUp</title>
+    <title>Dashboard - Plataforma PIENSA</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@700;800&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
@@ -99,7 +99,7 @@
 
     <nav class="navbar">
         <div class="container nav-container">
-            <a href="menu.html" class="logo">SkillUp</a>
+            <a href="menu.html" class="logo">PIENSA</a>
             <div class="nav-links">
                 <span id="user-display" style="font-weight: 600;">Hola, Estudiante</span>
                 <a href="index.html" onclick="logout()" style="color: #EF4444;">Salir</a>
@@ -119,15 +119,18 @@
         <!-- Stats Row -->
         <div class="stats-grid">
             <div class="stat-card">
-                <div class="stat-value">0%</div>
-                <div class="stat-label">Perfil Completado</div>
+                <div class="stat-value" id="stat-profile">0%</div>
+                <div class="progress-container">
+                    <div id="profile-progress-bar" class="progress-fill"></div>
+                </div>
+                <div class="stat-label" style="margin-top: 5px;">Perfil Completado</div>
             </div>
             <div class="stat-card">
-                <div class="stat-value">0</div>
+                <div class="stat-value" id="stat-interviews">0</div>
                 <div class="stat-label">Entrevistas Practicadas</div>
             </div>
             <div class="stat-card">
-                <div class="stat-value">0</div>
+                <div class="stat-value" id="stat-offers">0</div>
                 <div class="stat-label">Ofertas Guardadas</div>
             </div>
         </div>
@@ -171,18 +174,30 @@
     <script src="js/app.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            const user = JSON.parse(localStorage.getItem('softSkillsUser'));
-            if (!user) {
+            const userJson = localStorage.getItem('piensaUser');
+            if (!userJson) {
                 window.location.href = 'iniciar-sesion.html';
                 return;
             }
 
+            const user = JSON.parse(userJson);
             document.getElementById('user-display').textContent = `Hola, ${user.name.split(' ')[0]}`;
             document.getElementById('welcome-msg').textContent = `¡Vamos a progresar, ${user.name}!`;
+
+            // Populate Stats
+            const progress = user.perfilCompletado || 0;
+            document.getElementById('stat-profile').textContent = progress + '%';
+            document.getElementById('stat-interviews').textContent = user.entrevistas || 0;
+            document.getElementById('stat-offers').textContent = user.ofertasGuardadas || 0;
+
+            // Visual Progress Bar Animation
+            setTimeout(() => {
+                document.getElementById('profile-progress-bar').style.width = progress + '%';
+            }, 500); // Slight delay for visual effect
         });
 
         function logout() {
-            localStorage.removeItem('softSkillsUser');
+            localStorage.removeItem('piensaUser');
             window.location.href = 'index.html';
         }
     </script>

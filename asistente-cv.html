@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Constructor de CV - SkillUp</title>
+    <title>Constructor de CV - Plataforma PIENSA</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@700;800&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
@@ -72,7 +72,7 @@
 
     <nav class="navbar">
         <div class="container nav-container">
-            <a href="menu.html" class="logo">SkillUp</a>
+            <a href="menu.html" class="logo">PIENSA</a>
             <div class="nav-links">
                 <a href="menu.html">Volver al Panel</a>
             </div>
@@ -151,12 +151,61 @@
 
                 <div style="text-align: right; margin-bottom: 3rem;">
                     <button class="btn btn-secondary" onclick="window.print()">Descargar / Imprimir</button>
-                    <button class="btn btn-primary" onclick="alert('¡Borrador Guardado!')">Guardar Progreso</button>
+                    <button class="btn btn-primary" onclick="saveCV()">Guardar Progreso</button>
                 </div>
             </div>
 
         </div>
     </main>
+    <script src="js/app.js"></script>
+    <script type="module">
+        import { db } from './js/firebase-init.js';
+        import { doc, updateDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+        window.saveCV = async function () {
+            const userJson = localStorage.getItem('piensaUser');
+            if (!userJson) {
+                alert('Inicia sesión para guardar.');
+                return;
+            }
+            const user = JSON.parse(userJson);
+
+            // Initialize flags if they don't exist
+            if (!user.progressSteps) user.progressSteps = { cv: false, interview: false, job: false };
+
+            try {
+                const userRef = doc(db, "users", user.uid);
+                let updates = {};
+                let message = '¡Borrador guardado!';
+
+                // Check if this goal is already achieved
+                if (!user.progressSteps.cv) {
+                    const currentProgress = user.perfilCompletado || 10;
+                    const newProgress = Math.min(currentProgress + 40, 100);
+
+                    updates = {
+                        perfilCompletado: newProgress,
+                        "progressSteps.cv": true
+                    };
+
+                    user.perfilCompletado = newProgress;
+                    user.progressSteps.cv = true;
+                    message = `¡Felicidades! Tu perfil ha subido al ${newProgress}%.`;
+                }
+
+                if (Object.keys(updates).length > 0) {
+                    await updateDoc(userRef, updates);
+                    localStorage.setItem('piensaUser', JSON.stringify(user));
+                }
+
+                alert(message);
+                window.location.href = 'menu.html';
+            } catch (error) {
+                console.error("Error:", error);
+                alert('Error al guardar.');
+            }
+        }
+    </script>
 </body>
 
 </html>

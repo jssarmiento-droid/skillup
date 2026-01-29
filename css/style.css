@@ -1,21 +1,24 @@
 :root {
-  /* Color Palette - Corporate & Fresh */
-  --primary-color: #2563EB;
-  /* Royal Blue */
-  --primary-hover: #1D4ED8;
-  /* Darker Blue */
-  --secondary-color: #0F172A;
-  /* Slate 900 */
-  --text-main: #334155;
-  /* Slate 700 */
+  /* Color Palette - Plataforma PIENSA (Institutional) */
+  --primary-color: #004080;
+  /* Institutional Navy Blue */
+  --primary-hover: #002b5e;
+  /* Darker Navy */
+  --secondary-color: #64748B;
+  /* Professional Gray */
+
+  --text-main: #333333;
+  /* Dark Gray for text */
   --text-dark: #0F172A;
-  /* Slate 900 - Headings */
-  --text-muted: #64748B;
-  /* Slate 500 */
-  --bg-body: #F8FAFC;
-  /* Slate 50 */
+  /* Almost Black for Headings */
+  --text-muted: #666666;
+  /* Muted Gray */
+
+  --bg-body: #F4F6F9;
+  /* Very light gray/blue tint background */
   --bg-card: #FFFFFF;
-  --bg-gradient: linear-gradient(135deg, #EFF6FF 0%, #FFFFFF 100%);
+  --bg-gradient: linear-gradient(135deg, #004080 0%, #0066cc 100%);
+  /* Blue gradient */
 
   /* Typography */
   --font-main: 'Inter', system-ui, -apple-system, sans-serif;
@@ -170,6 +173,7 @@ img {
   font-size: 1.5rem;
   font-weight: 800;
   background: var(--bg-gradient);
+  background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
@@ -177,11 +181,24 @@ img {
 .nav-links {
   display: flex;
   gap: var(--spacing-md);
+  align-items: center;
+  /* Fix vertical alignment */
 }
 
 .nav-links a {
   font-weight: 500;
   color: var(--text-muted);
+}
+
+/* Specific fix for Navbar Button */
+.nav-links .btn {
+  padding: 0.5rem 1.25rem;
+  /* Smaller padding */
+  font-size: 0.9rem;
+  /* Slightly smaller text */
+  color: white !important;
+  /* Ensure high contrast */
+  line-height: 1.5;
 }
 
 .nav-links a:hover,
@@ -197,4 +214,203 @@ footer {
   border-top: 1px solid #E5E7EB;
   text-align: center;
   color: var(--text-muted);
+}
+
+/* Progress Bar */
+.progress-container {
+  width: 100%;
+  background-color: #E2E8F0;
+  border-radius: 9999px;
+  height: 10px;
+  margin-top: 10px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background-color: #0d9488;
+  /* Aqua/Teal color */
+  border-radius: 9999px;
+  width: 0%;
+  /* Dynamic */
+  transition: width 1s ease-in-out;
+}
+
+/* AI Simulator Section */
+.ai-sim-container {
+  background: white;
+  padding: 1.5rem;
+  border-radius: var(--radius-md);
+  border: 1px solid #E5E7EB;
+  /* height: 100%; Removed fixed height to fit content naturally */
+}
+
+.sim-textarea {
+  width: 100%;
+  min-height: 150px;
+  padding: 1rem;
+  border: 1px solid #E5E7EB;
+  border-radius: var(--radius-sm);
+  font-family: inherit;
+  resize: vertical;
+  margin-bottom: 1rem;
+  font-size: 0.95rem;
+}
+
+.sim-textarea:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(0, 64, 128, 0.1);
+}
+
+.ai-feedback-card {
+  margin-top: 1.5rem;
+  background: #F0F9FF;
+  /* Light blue tint */
+  border: 1px solid #BAE6FD;
+  padding: 1.5rem;
+  border-radius: var(--radius-md);
+  position: relative;
+}
+
+.ai-feedback-card h4 {
+  color: #0369A1;
+  /* Dark blue text */
+  margin-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.ai-feedback-text {
+  font-size: 0.9rem;
+  color: #334155;
+  line-height: 1.6;
+}
+
+/* Integrated Interview Row System */
+.interview-row {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  /* Question | Practice */
+  gap: 2rem;
+  background: white;
+  padding: 1.5rem;
+  border-radius: var(--radius-md);
+  border: 1px solid #E5E7EB;
+  margin-bottom: 2rem;
+  align-items: start;
+}
+
+.interview-question-col {
+  position: relative;
+}
+
+.interview-practice-col {
+  background: #F8FAFC;
+  padding: 1.25rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid #E2E8F0;
+}
+
+.compact-textarea {
+  width: 100%;
+  min-height: 80px;
+  /* Shorter height */
+  padding: 0.75rem;
+  border: 1px solid #CBD5E1;
+  border-radius: var(--radius-sm);
+  font-family: inherit;
+  resize: vertical;
+  font-size: 0.9rem;
+  margin-bottom: 0.75rem;
+}
+
+.compact-textarea:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 2px rgba(0, 64, 128, 0.1);
+}
+
+.ai-feedback-placeholder {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px dashed #CBD5E1;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  font-style: italic;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.interview-row {
+  grid-template-columns: 1fr;
+  /* Stack on mobile */
+  gap: 1rem;
+}
+}
+
+.ai-feedback-placeholder.success {
+  color: #15803d;
+  /* Green text */
+  font-style: normal;
+  background: #f0fdf4;
+  border-color: #10B981;
+  border-style: solid;
+  padding: 1rem;
+  border-radius: var(--radius-sm);
+  animation: fadeIn 0.5s ease-in;
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 0.6;
+  }
+
+  50% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0.6;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(5px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Tip Cards */
+.tip-card {
+  background: white;
+  padding: 1.25rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid #E5E7EB;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  transition: all 0.2s;
+  font-size: 0.95rem;
+  color: #374151;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.tip-card:hover {
+  border-color: var(--primary-color);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.tip-card i,
+.tip-card .emoji-icon {
+  font-size: 1.2rem;
 }

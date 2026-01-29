@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Acceso - SkillUp</title>
+    <title>Acceso - Plataforma PIENSA</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@700;800&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
@@ -83,7 +83,7 @@
 
     <nav class="navbar">
         <div class="container nav-container">
-            <a href="index.html" class="logo">SkillUp</a>
+            <a href="index.html" class="logo">PIENSA</a>
         </div>
     </nav>
 
@@ -96,7 +96,7 @@
 
             <!-- Register Form -->
             <form id="register-form" onsubmit="handleRegister(event)">
-                <h2 style="margin-bottom: 1.5rem;">Crea tu cuenta gratis</h2>
+                <h2 style="margin-bottom: 1.5rem;">Crea tu cuenta</h2>
 
                 <div class="form-group">
                     <label for="reg-name">Nombre Completo</label>
@@ -111,6 +111,16 @@
                 <div class="form-group">
                     <label for="reg-career">Carrera / Área de interés</label>
                     <input type="text" id="reg-career" required placeholder="Ej: Ingeniería de Sistemas">
+                </div>
+
+                <div class="form-group">
+                    <label for="reg-city">Ciudad</label>
+                    <input type="text" id="reg-city" required placeholder="Ej: Cuenca">
+                </div>
+
+                <div class="form-group">
+                    <label for="reg-phone">Número de teléfono</label>
+                    <input type="tel" id="reg-phone" required placeholder="Ej: 0991234567">
                 </div>
 
                 <div class="form-group">
@@ -141,8 +151,13 @@
     </div>
 
     <script src="js/app.js"></script>
-    <script>
-        function switchTab(tab) {
+    <script type="module">
+        import { auth, db } from './js/firebase-init.js';
+        import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+        import { doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+        // Expose functions to global scope for HTML event handlers
+        window.switchTab = function (tab) {
             const regForm = document.getElementById('register-form');
             const loginForm = document.getElementById('login-form');
             const btns = document.querySelectorAll('.tab-btn');
@@ -160,31 +175,90 @@
             }
         }
 
-        function handleRegister(e) {
+        window.handleRegister = async function (e) {
             e.preventDefault();
             const name = document.getElementById('reg-name').value;
+            const email = document.getElementById('reg-email').value;
             const career = document.getElementById('reg-career').value;
+            const city = document.getElementById('reg-city').value;
+            const phone = document.getElementById('reg-phone').value;
+            const password = document.getElementById('reg-pass').value;
 
-            // Save to localStorage
-            const user = { name, career, progress: 0 };
-            localStorage.setItem('softSkillsUser', JSON.stringify(user));
+            try {
+                // 1. Create Authentication User
+                const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+                const user = userCredential.user;
 
-            alert('¡Cuenta creada con éxito!');
-            window.location.href = 'menu.html';
+                // 2. Save User Data to Firestore
+                await setDoc(doc(db, "users", user.uid), {
+                    name: name,
+                    email: email,
+                    career: career,
+                    city: city,
+                    phone: phone,
+                    // Initial Progress
+                    perfilCompletado: 10,
+                    entrevistas: 0,
+                    ofertasGuardadas: 0,
+                    progressSteps: {
+                        cv: false,
+                        interview: false,
+                        job: false
+                    },
+                    createdAt: new Date()
+                });
+
+                alert('¡Cuenta creada con éxito!');
+                // Save basic info for UI use without refetching immediately
+                localStorage.setItem('piensaUser', JSON.stringify({
+                    name,
+                    email,
+                    uid: user.uid,
+                    perfilCompletado: 10,
+                    entrevistas: 0,
+                    ofertasGuardadas: 0,
+                    progressSteps: { cv: false, interview: false, job: false }
+                }));
+                window.location.href = 'menu.html';
+
+            } catch (error) {
+                console.error("Error al registrar:", error);
+                alert('Error al registrar: ' + error.message);
+            }
         }
 
-        function handleLogin(e) {
+        window.handleLogin = async function (e) {
             e.preventDefault();
-            // Mock login - allow anyone for demo
-            const savedUser = localStorage.getItem('softSkillsUser');
-            if (savedUser) {
-                window.location.href = 'menu.html';
-            } else {
-                // Determine logic if no user exists, maybe creating a dummy one
-                const dummyName = document.getElementById('login-email').value.split('@')[0];
-                const user = { name: dummyName, career: 'Estudiante', progress: 0 };
-                localStorage.setItem('softSkillsUser', JSON.stringify(user));
-                window.location.href = 'menu.html';
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-pass').value;
+
+            try {
+                const userCredential = await signInWithEmailAndPassword(auth, email, password);
+                const user = userCredential.user;
+
+                // Fetch user specific data
+                const docRef = doc(db, "users", user.uid);
+                const docSnap = await getDoc(docRef);
+
+                if (docSnap.exists()) {
+                    const userData = docSnap.data();
+                    localStorage.setItem('piensaUser', JSON.stringify({ ...userData, uid: user.uid }));
+                } else {
+                    // Fallback if no doc
+                    localStorage.setItem('piensaUser', JSON.stringify({ email: user.email, uid: user.uid }));
+                }
+
+                alert('Bienvenido a Plataforma PIENSA');
+                // Check if admin (Mock logic for now, or check specific email)
+                if (email.includes('admin')) {
+                    window.location.href = 'panel-admin.html';
+                } else {
+                    window.location.href = 'menu.html';
+                }
+
+            } catch (error) {
+                console.error("Error al iniciar sesión:", error);
+                alert('Error al iniciar sesión: ' + error.message);
             }
         }
     </script>

@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Entrevista - SkillUp</title>
+    <title>Entrevista - Plataforma PIENSA</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@700;800&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
@@ -74,7 +74,7 @@
 
     <nav class="navbar">
         <div class="container nav-container">
-            <a href="menu.html" class="logo">SkillUp</a>
+            <a href="menu.html" class="logo">PIENSA</a>
             <div class="nav-links">
                 <a href="menu.html">Volver al Panel</a>
             </div>
@@ -89,87 +89,271 @@
     </header>
 
     <main class="container">
-        <div class="prep-grid">
 
-            <!-- Checklist Section -->
-            <section>
-                <h2 style="margin-bottom: 1.5rem;">Checklist Antes de la Entrevista</h2>
-                <div class="checklist">
-                    <label class="checklist-item">
-                        <input type="checkbox"> Investigar sobre la empresa y su cultura.
-                    </label>
-                    <label class="checklist-item">
-                        <input type="checkbox"> Revisar la descripción del puesto.
-                    </label>
-                    <label class="checklist-item">
-                        <input type="checkbox"> Preparar tu vestimenta (formal/casual).
-                    </label>
-                    <label class="checklist-item">
-                        <input type="checkbox"> Verificar conexión y cámara (si es virtual).
-                    </label>
-                    <label class="checklist-item">
-                        <input type="checkbox"> Tener copia de tu CV a la mano.
-                    </label>
-                    <label class="checklist-item">
-                        <input type="checkbox"> Preparar preguntas para el entrevistador.
-                    </label>
+        <!-- Tips Section (Full Width) -->
+        <section style="margin-bottom: 3rem;">
+            <h2 style="margin-bottom: 1.5rem;">Consejos antes de la entrevista</h2>
+            <div class="checklist"
+                style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem;">
+                <div class="tip-card">
+                    <span class="emoji-icon">🏢</span> Investigar sobre la empresa y su cultura.
                 </div>
+                <div class="tip-card">
+                    <span class="emoji-icon">📝</span> Revisar la descripción del puesto.
+                </div>
+                <div class="tip-card">
+                    <span class="emoji-icon">👔</span> Preparar tu vestimenta (formal/casual).
+                </div>
+                <div class="tip-card">
+                    <span class="emoji-icon">📹</span> Verificar conexión y cámara (si es virtual).
+                </div>
+                <div class="tip-card">
+                    <span class="emoji-icon">📄</span> Tener copia de tu CV a la mano.
+                </div>
+                <div class="tip-card">
+                    <span class="emoji-icon">❓</span> Preparar preguntas para el entrevistador.
+                </div>
+            </div>
+        </section>
+
+        <!-- Questions Simulator (Per-Question Row Layout) -->
+        <section>
+            <h2 style="margin-bottom: 2rem;">Simulador de Entrevista</h2>
+
+            <!-- Question 1 -->
+            <article class="interview-row">
+                <div class="interview-question-col">
+                    <div class="question-card" onclick="this.classList.toggle('active')" style="margin-bottom: 0;">
+                        <div class="question-header">
+                            ¿Cuéntame sobre ti?
+                            <span class="toggle-icon">+</span>
+                        </div>
+                        <div class="answer-tip" style="display: block;">
+                            <strong>Tip:</strong> No recites tu CV. Habla de tu pasión por el área, una experiencia
+                            clave reciente y por qué te interesa este rol. Manténlo bajo 2 minutos.
+                        </div>
+                    </div>
+                </div>
+                <div class="interview-practice-col">
+                    <textarea class="compact-textarea" placeholder="Escribe tu respuesta aquí..."></textarea>
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <span style="font-size: 0.8rem; color: var(--text-muted);">IA lista para analizar</span>
+                        <button class="btn btn-primary" style="font-size: 0.85rem; padding: 0.4rem 1rem;"
+                            onclick="simulateAIAnalysis(this)">Analizar Respuesta</button>
+                    </div>
+                    <div class="ai-feedback-placeholder">
+                        <span>🧠 Aquí aparecerá tu retroalimentación.</span>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Question 2 -->
+            <article class="interview-row">
+                <div class="interview-question-col">
+                    <div class="question-card" onclick="this.classList.toggle('active')" style="margin-bottom: 0;">
+                        <div class="question-header">
+                            ¿Cuál es tu mayor debilidad?
+                            <span class="toggle-icon">+</span>
+                        </div>
+                        <div class="answer-tip">
+                            <strong>Tip:</strong> Elige una debilidad real pero no crítica. Enfócate en cómo estás
+                            trabajando para mejorarla.
+                        </div>
+                    </div>
+                </div>
+                <div class="interview-practice-col">
+                    <textarea class="compact-textarea" placeholder="Escribe tu respuesta aquí..."></textarea>
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <span style="font-size: 0.8rem; color: var(--text-muted);">IA lista para analizar</span>
+                        <button class="btn btn-primary" style="font-size: 0.85rem; padding: 0.4rem 1rem;"
+                            onclick="simulateAIAnalysis(this)">Analizar Respuesta</button>
+                    </div>
+                    <div class="ai-feedback-placeholder">
+                        <span>🧠 Aquí aparecerá tu retroalimentación.</span>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Question 3 -->
+            <article class="interview-row">
+                <div class="interview-question-col">
+                    <div class="question-card" onclick="this.classList.toggle('active')" style="margin-bottom: 0;">
+                        <div class="question-header">
+                            ¿Dónde te ves en 5 años?
+                            <span class="toggle-icon">+</span>
+                        </div>
+                        <div class="answer-tip">
+                            <strong>Tip:</strong> Muestra ambición pero alineada con la empresa. "Espero haber crecido
+                            en roles de liderazgo..."
+                        </div>
+                    </div>
+                </div>
+                <div class="interview-practice-col">
+                    <textarea class="compact-textarea" placeholder="Escribe tu respuesta aquí..."></textarea>
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <span style="font-size: 0.8rem; color: var(--text-muted);">IA lista para analizar</span>
+                        <button class="btn btn-primary" style="font-size: 0.85rem; padding: 0.4rem 1rem;"
+                            onclick="simulateAIAnalysis(this)">Analizar Respuesta</button>
+                    </div>
+                    <div class="ai-feedback-placeholder">
+                        <span>🧠 Aquí aparecerá tu retroalimentación.</span>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Question 4 -->
+            <article class="interview-row">
+                <div class="interview-question-col">
+                    <div class="question-card" onclick="this.classList.toggle('active')" style="margin-bottom: 0;">
+                        <div class="question-header">
+                            ¿Por qué deberíamos contratarte?
+                            <span class="toggle-icon">+</span>
+                        </div>
+                        <div class="answer-tip">
+                            <strong>Tip:</strong> Conecta tus habilidades blandas (soft skills) con las necesidades de
+                            la empresa.
+                        </div>
+                    </div>
+                </div>
+                <div class="interview-practice-col">
+                    <textarea class="compact-textarea" placeholder="Escribe tu respuesta aquí..."></textarea>
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <span style="font-size: 0.8rem; color: var(--text-muted);">IA lista para analizar</span>
+                        <button class="btn btn-primary" style="font-size: 0.85rem; padding: 0.4rem 1rem;"
+                            onclick="alert('Análisis de IA simulado...')">Analizar Respuesta</button>
+                    </div>
+                    <div class="ai-feedback-placeholder">
+                        <span>🧠 Aquí aparecerá tu retroalimentación.</span>
+                    </div>
+                </div>
+            </article>
+
+            <section style="text-align: center; margin-top: 2rem;">
+                <button class="btn btn-primary" onclick="finishPractice(this)">✅ Registrar Práctica</button>
             </section>
-
-            <!-- Questions Simulator -->
-            <section>
-                <h2 style="margin-bottom: 1.5rem;">Preguntas Frecuentes</h2>
-                <p style="margin-bottom: 1rem; font-size: 0.9rem; color: var(--text-muted);">Haz clic para ver consejos
-                    de cómo responder.</p>
-
-                <div class="question-card" onclick="this.classList.toggle('active')">
-                    <div class="question-header">
-                        ¿Cuéntame sobre ti?
-                        <span class="toggle-icon">+</span>
-                    </div>
-                    <div class="answer-tip">
-                        <strong>Tip:</strong> No recites tu CV. Habla de tu pasión por el área, una experiencia clave
-                        reciente y por qué te interesa este rol. Manténlo bajo 2 minutos.
-                    </div>
-                </div>
-
-                <div class="question-card" onclick="this.classList.toggle('active')">
-                    <div class="question-header">
-                        ¿Cuál es tu mayor debilidad?
-                        <span class="toggle-icon">+</span>
-                    </div>
-                    <div class="answer-tip">
-                        <strong>Tip:</strong> Elige una debilidad real pero no crítica. Enfócate en cómo estás
-                        trabajando para mejorarla. (Ej: "A veces me cuesta delegar, pero uso herramientas como Trello
-                        para organizarme mejor").
-                    </div>
-                </div>
-
-                <div class="question-card" onclick="this.classList.toggle('active')">
-                    <div class="question-header">
-                        ¿Dónde te ves en 5 años?
-                        <span class="toggle-icon">+</span>
-                    </div>
-                    <div class="answer-tip">
-                        <strong>Tip:</strong> Muestra ambición pero alineada con la empresa. "Espero haber crecido en
-                        roles de liderazgo dentro de este sector, aportando valor en proyectos grandes".
-                    </div>
-                </div>
-
-                <div class="question-card" onclick="this.classList.toggle('active')">
-                    <div class="question-header">
-                        ¿Por qué deberíamos contratarte?
-                        <span class="toggle-icon">+</span>
-                    </div>
-                    <div class="answer-tip">
-                        <strong>Tip:</strong> Conecta tus habilidades blandas (soft skills) con las necesidades de la
-                        empresa. "Por mi capacidad de adaptación rápida y mi experiencia previa en..."
-                    </div>
-                </div>
-
-            </section>
-        </div>
+        </section>
     </main>
+    <script src="js/app.js"></script>
+    <script type="module">
+        import { db } from './js/firebase-init.js';
+        import { doc, updateDoc, increment } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+        // AI Feedback Simulation
+        window.simulateAIAnalysis = function (btn) {
+            // Find the feedback container in the same column
+            const container = btn.closest('.interview-practice-col');
+            const feedbackBox = container.querySelector('.ai-feedback-placeholder');
+            const originalText = btn.innerHTML;
+
+            // Loading State
+            btn.disabled = true;
+            btn.innerHTML = 'Analizando... <span style="animation: pulse 1s infinite">🧠</span>';
+            feedbackBox.innerHTML = '<span style="color:var(--primary-color); animation: pulse 0.8s infinite">Generando retroalimentación inteligente...</span>';
+
+            setTimeout(() => {
+                // Success State
+                btn.innerHTML = '¡Analizado! ✓';
+                btn.style.backgroundColor = "#10B981"; // Success green
+                btn.style.borderColor = "#10B981";
+
+                feedbackBox.innerHTML = `
+                    <div style="display:flex; flex-direction:column; gap:0.5rem;">
+                        <strong style="color: #15803d;">✅ Análisis Completado:</strong>
+                        <p style="font-size: 0.9rem; color: #166534;">
+                            Tu respuesta tiene una buena estructura. Has mencionado palabras clave importantes alineadas con el perfil. 
+                            <strong>Recomendación:</strong> Intenta incluir un ejemplo cuantitativo para dar más impacto.
+                        </p>
+                    </div>
+                `;
+                feedbackBox.classList.add('success');
+
+                // Reset button state after 3 seconds (optional, but good UX to allow re-analysis)
+                setTimeout(() => {
+                    btn.disabled = false;
+                    btn.innerHTML = originalText;
+                    btn.style.backgroundColor = "";
+                    btn.style.borderColor = "";
+                }, 4000);
+
+            }, 2000); // 2 seconds simulation
+        }
+
+        window.finishPractice = async function (btnElement) {
+            // Find button if not passed directly (fallback)
+            const btn = btnElement || document.querySelector('button[onclick="finishPractice()"]');
+
+            const originalText = btn ? btn.innerHTML : 'Registrar Práctica';
+
+            const userJson = localStorage.getItem('piensaUser');
+            if (!userJson) {
+                if (btn) {
+                    btn.innerHTML = '⚠️ Inicia sesión primero';
+                    btn.style.backgroundColor = '#f59e0b'; // Amber warning
+                    setTimeout(() => {
+                        btn.innerHTML = originalText;
+                        btn.style.backgroundColor = '';
+                    }, 3000);
+                }
+                return;
+            }
+            const user = JSON.parse(userJson);
+
+            // Initialize flags
+            if (!user.progressSteps) user.progressSteps = { cv: false, interview: false, job: false };
+
+            // Loading state
+            if (btn) {
+                btn.disabled = true;
+                btn.innerHTML = 'Guardando...';
+            }
+
+            try {
+                const userRef = doc(db, "users", user.uid);
+                let updates = {
+                    entrevistas: increment(1)
+                };
+
+                // Check Progress Goal
+                if (!user.progressSteps.interview) {
+                    const currentProgress = user.perfilCompletado || 10;
+                    const newProgress = Math.min(currentProgress + 25, 100);
+
+                    updates.perfilCompletado = newProgress;
+                    updates["progressSteps.interview"] = true;
+
+                    user.perfilCompletado = newProgress;
+                    user.progressSteps.interview = true;
+                }
+
+                await updateDoc(userRef, updates);
+
+                // Update local storage
+                user.entrevistas = (user.entrevistas || 0) + 1;
+                localStorage.setItem('piensaUser', JSON.stringify(user));
+
+                // Success UI
+                if (btn) {
+                    btn.innerHTML = '¡Guardado! ✅';
+                    btn.style.backgroundColor = '#10B981'; // Green
+                    btn.style.borderColor = '#10B981';
+
+                    setTimeout(() => {
+                        window.location.href = 'menu.html';
+                    }, 1500);
+                } else {
+                    window.location.href = 'menu.html';
+                }
+
+            } catch (error) {
+                console.error("Error:", error);
+                if (btn) {
+                    btn.innerHTML = '❌ Error al guardar';
+                    btn.style.backgroundColor = '#ef4444'; // Red
+                    btn.disabled = false;
+                }
+            }
+        }
+    </script>
 </body>
 
 </html>

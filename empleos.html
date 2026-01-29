@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ofertas Laborales - SkillUp</title>
+    <title>Ofertas Laborales - Plataforma PIENSA</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@700;800&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
@@ -110,7 +110,7 @@
 
     <nav class="navbar">
         <div class="container nav-container">
-            <a href="menu.html" class="logo">SkillUp</a>
+            <a href="menu.html" class="logo">PIENSA</a>
             <div class="nav-links">
                 <a href="menu.html">Volver al Panel</a>
             </div>
@@ -229,12 +229,59 @@
         </div>
     </main>
 
-    <script>
-        function applyJob(btn) {
+    <script src="js/app.js"></script>
+    <script type="module">
+        import { db } from './js/firebase-init.js';
+        import { doc, updateDoc, increment } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+        window.applyJob = async function (btn) {
+            const userJson = localStorage.getItem('piensaUser');
+            if (!userJson) {
+                alert('Debes iniciar sesión para aplicar.');
+                window.location.href = 'iniciar-sesion.html';
+                return;
+            }
+            const user = JSON.parse(userJson);
+
+            // Initialize flags
+            if (!user.progressSteps) user.progressSteps = { cv: false, interview: false, job: false };
+
+            // Visual feedback
             btn.textContent = '¡Aplicado!';
-            btn.style.background = '#10B981'; // Green
+            btn.style.background = '#10B981';
             btn.disabled = true;
-            alert('Has aplicado exitosamente a esta oferta. La empresa te contactará pronto.');
+
+            try {
+                const userRef = doc(db, "users", user.uid);
+                let updates = {
+                    ofertasGuardadas: increment(1)
+                };
+                let message = 'Has aplicado exitosamente. Se ha guardado en tu historial.';
+
+                // Check Progress Goal
+                if (!user.progressSteps.job) {
+                    const currentProgress = user.perfilCompletado || 10;
+                    const newProgress = Math.min(currentProgress + 25, 100);
+
+                    updates.perfilCompletado = newProgress;
+                    updates["progressSteps.job"] = true;
+
+                    user.perfilCompletado = newProgress;
+                    user.progressSteps.job = true;
+                    message += ` ¡Y haz avanzado al ${newProgress}% de tu perfil!`;
+                }
+
+                await updateDoc(userRef, updates);
+
+                // Update local storage
+                user.ofertasGuardadas = (user.ofertasGuardadas || 0) + 1;
+                localStorage.setItem('piensaUser', JSON.stringify(user));
+
+                alert(message);
+            } catch (error) {
+                console.error("Error updating stats:", error);
+                alert('Aplicado, pero hubo un error guardando el progreso.');
+            }
         }
     </script>
 </body>

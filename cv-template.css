@@ -1,0 +1,183 @@
+/*
+  SkillUp - Plantilla de CV profesional
+  Estructura pensada para reutilización y renderizado dinámico futuro.
+*/
+
+:root {
+  --cv-max-width: 800px;
+  --cv-page-bg: #dcdcdc;
+  --cv-paper-bg: #ffffff;
+  --cv-primary-text: #1c1c1c;
+  --cv-secondary-text: #3d3d3d;
+  --cv-divider: #a9a9a9;
+  --cv-tag-bg: #f1f1f1;
+  --cv-tag-text: #2d2d2d;
+  --cv-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  --cv-space-xs: 0.35rem;
+  --cv-space-sm: 0.7rem;
+  --cv-space-md: 1rem;
+  --cv-space-lg: 1.5rem;
+  --cv-space-xl: 2rem;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Georgia, "Times New Roman", serif;
+  color: var(--cv-primary-text);
+  background: var(--cv-page-bg);
+}
+
+/* Layout principal reutilizable para cualquier template */
+.cv-page {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  padding: var(--cv-space-xl) var(--cv-space-md);
+}
+
+.cv-paper {
+  width: 100%;
+  max-width: var(--cv-max-width);
+  background: var(--cv-paper-bg);
+  padding: var(--cv-space-xl);
+  box-shadow: var(--cv-shadow);
+}
+
+/* Cabecera */
+.cv-header {
+  text-align: center;
+  margin-bottom: var(--cv-space-xl);
+}
+
+.cv-photo-wrapper {
+  margin: 0 0 var(--cv-space-md);
+}
+
+.cv-photo {
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #e7e7e7;
+}
+
+.cv-name {
+  margin: 0;
+  font-size: clamp(2rem, 3.2vw, 2.7rem);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.cv-contact-line {
+  margin: var(--cv-space-sm) 0 0;
+  display: flex;
+  justify-content: center;
+  gap: var(--cv-space-sm);
+  flex-wrap: wrap;
+  color: var(--cv-secondary-text);
+  font-size: 0.95rem;
+}
+
+/* Secciones */
+.cv-section {
+  margin-bottom: var(--cv-space-lg);
+}
+
+.cv-section-title {
+  margin: 0 0 var(--cv-space-md);
+  padding-bottom: var(--cv-space-xs);
+  text-transform: uppercase;
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  border-bottom: 1px solid var(--cv-divider);
+}
+
+.cv-paragraph {
+  margin: 0;
+  line-height: 1.6;
+  color: var(--cv-secondary-text);
+}
+
+/* Bloques de experiencia y educación con fechas a la derecha */
+.cv-timeline-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: var(--cv-space-md);
+  margin-bottom: var(--cv-space-md);
+}
+
+.cv-timeline-item:last-child {
+  margin-bottom: 0;
+}
+
+.cv-timeline-content {
+  flex: 1;
+}
+
+.cv-item-title {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.cv-item-description {
+  margin: var(--cv-space-xs) 0 0;
+  color: var(--cv-secondary-text);
+  line-height: 1.5;
+}
+
+.cv-item-date {
+  margin: 0;
+  white-space: nowrap;
+  color: var(--cv-secondary-text);
+  font-weight: 700;
+  font-size: 0.95rem;
+}
+
+/* Listas reutilizables */
+.cv-basic-list {
+  margin: 0;
+  padding-left: 1.2rem;
+  color: var(--cv-secondary-text);
+  line-height: 1.6;
+}
+
+.cv-tags-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--cv-space-sm);
+}
+
+.cv-tag {
+  background: var(--cv-tag-bg);
+  color: var(--cv-tag-text);
+  padding: 0.35rem 0.75rem;
+  border-radius: 999px;
+  font-size: 0.92rem;
+}
+
+/* Ajustes responsivos básicos sin alterar estructura principal */
+@media (max-width: 640px) {
+  .cv-paper {
+    padding: var(--cv-space-lg);
+  }
+
+  .cv-timeline-item {
+    flex-direction: column;
+    gap: var(--cv-space-xs);
+  }
+
+  .cv-item-date {
+    white-space: normal;
+  }
+}

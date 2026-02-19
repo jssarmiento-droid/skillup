@@ -1,128 +1,186 @@
-/* Harvard CV Print Styles */
+/* Harvard CV Professional Print Styles */
+
+/* Base Typography for CV */
+.cv-preview {
+    font-family: 'Times New Roman', Times, serif;
+    color: #000;
+    line-height: 1.15;
+    font-size: 11pt;
+}
+
+.cv-header {
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+.cv-name {
+    font-size: 24pt;
+    font-weight: bold;
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+    letter-spacing: 0.5px;
+}
+
+.cv-contact-info {
+    font-size: 10.5pt;
+    margin-bottom: 0.5rem;
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.cv-section {
+    margin-bottom: 1.2rem;
+}
+
+.cv-section-title {
+    font-size: 12pt;
+    font-weight: bold;
+    text-transform: uppercase;
+    border-bottom: 1px solid #000;
+    margin-bottom: 0.8rem;
+    padding-bottom: 2px;
+}
+
+/* Experience & Education Items */
+.cv-item {
+    margin-bottom: 1rem;
+}
+
+.cv-item-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    font-weight: bold;
+    font-size: 11pt;
+}
+
+.cv-item-subheader {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    font-style: italic;
+    font-size: 11pt;
+    margin-bottom: 0.25rem;
+}
+
+.cv-bullets {
+    margin: 0;
+    padding-left: 1.2rem;
+}
+
+.cv-bullets li {
+    margin-bottom: 2px;
+}
+
+/* Screen Preview Mode (Paper Look) */
+@media screen {
+    .cv-preview {
+        background: white;
+        width: 21cm;
+        /* A4 Width */
+        min-height: 29.7cm;
+        /* A4 Height */
+        padding: 2.5cm 2cm;
+        margin: 0 auto;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        border: 1px solid #E2E8F0;
+        display: none;
+        /* Controlled by JS/CSS Grid */
+    }
+
+    @media (min-width: 1024px) {
+        .cv-preview {
+            display: block;
+        }
+    }
+}
+
+/* Print Mode (The Real Deal) */
+/* Print Mode (The Real Deal) */
 @media print {
     @page {
-        margin: 0.5cm;
-        size: letter;
+        margin: 0;
+        size: auto;
     }
 
-    body {
-        background: white;
-        color: black;
-        font-family: 'Times New Roman', Times, serif;
-        /* Classic Harvard font */
+    body,
+    html {
+        background: white !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        /* 1.5cm padding is handled in #cv-preview */
+        width: 100% !important;
+        height: 100% !important;
+        -webkit-print-color-adjust: exact;
+        overflow: visible !important;
     }
 
-    /* Hide non-CV elements */
+    /* Reset Main Containers */
+    main,
+    .container,
+    .split-layout,
+    .app-layout {
+        display: block !important;
+        width: 100% !important;
+        max-width: none !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        background: white !important;
+        border: none !important;
+        transform: none !important;
+        position: static !important;
+    }
+
+    /* Hide EVERYTHING non-CV */
     .navbar,
-    .tips-sidebar,
-    .cv-form-section,
-    header,
+    .editor-container,
+    .editor-sidebar,
+    .editor-section,
     footer,
-    button,
-    #toast-container,
-    .no-print {
+    .btn,
+    .no-print,
+    .tips-sidebar,
+    #toast-container {
         display: none !important;
     }
 
-    /* CV Container */
+    /* Force CV Preview Visible & Positioned */
+    #cv-preview,
     .cv-preview {
         display: block !important;
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        margin: 0;
-        padding: 0;
-        box-shadow: none;
-        border: none;
+        position: absolute !important;
+        top: 0 !important;
+        left: 0 !important;
+        width: 100% !important;
+        margin: 0 !important;
+        padding: 1.5cm !important;
+        /* Correct Print Margins here */
+        box-shadow: none !important;
+        border: none !important;
+        background: white !important;
+        z-index: 9999;
+        page-break-inside: auto;
     }
 
-    .split-layout {
-        display: block;
+    /* Ensure Dynamic Grids Print correctly */
+    .grid-2 {
+        display: grid !important;
+        grid-template-columns: 1fr 1fr !important;
+        gap: 1rem !important;
     }
 
-    /* CV Typography & Layout */
-    .cv-header {
-        text-align: center;
-        border-bottom: 1px solid black;
-        padding-bottom: 10px;
-        margin-bottom: 15px;
-    }
-
+    /* Typography Fixes for Print */
     .cv-name {
-        font-size: 24pt;
-        font-weight: bold;
-        text-transform: uppercase;
-        margin-bottom: 5px;
-    }
-
-    .cv-contact-info {
-        font-size: 11pt;
-        margin-bottom: 5px;
-    }
-
-    .cv-section {
-        margin-bottom: 15px;
+        font-size: 24pt !important;
+        color: black !important;
     }
 
     .cv-section-title {
-        font-size: 14pt;
-        font-weight: bold;
-        border-bottom: 1px solid black;
-        margin-bottom: 10px;
-        text-transform: uppercase;
+        border-bottom: 1px solid black !important;
+        color: black !important;
     }
 
-    .cv-item {
-        margin-bottom: 10px;
-    }
-
-    .cv-item-header {
-        display: flex;
-        justify-content: space-between;
-        font-weight: bold;
-        font-size: 12pt;
-    }
-
-    .cv-item-subheader {
-        display: flex;
-        justify-content: space-between;
-        font-style: italic;
-        font-size: 11pt;
-        margin-bottom: 3px;
-    }
-
-    .cv-item-details {
-        font-size: 11pt;
-        line-height: 1.4;
-    }
-
-    ul.cv-bullets {
-        margin: 0;
-        padding-left: 1.5em;
-    }
-
-    ul.cv-bullets li {
-        margin-bottom: 2px;
-    }
-}
-
-/* Screen Styles for Preview */
-.cv-preview {
-    background: white;
-    padding: 4rem;
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
-    min-height: 29.7cm;
-    /* A4 height */
-    margin-bottom: 2rem;
-    font-family: 'Times New Roman', Times, serif;
-    color: #333;
-    display: none;
-    /* Hidden by default in mobile/tablet if needed, or controlled by JS */
-}
-
-@media screen and (min-width: 1024px) {
-    .cv-preview {
-        display: block;
-    }
+    /* Hide empty sections if needed, or rely on JS display:none */
 }

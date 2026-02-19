@@ -176,13 +176,16 @@
         document.addEventListener('DOMContentLoaded', () => {
             const userJson = localStorage.getItem('piensaUser');
             if (!userJson) {
+                // Return to login if no session
+                console.warn("No session found, redirecting...");
                 window.location.href = 'iniciar-sesion.html';
                 return;
             }
 
             const user = JSON.parse(userJson);
-            document.getElementById('user-display').textContent = `Hola, ${user.name.split(' ')[0]}`;
-            document.getElementById('welcome-msg').textContent = `¡Vamos a progresar, ${user.name}!`;
+            const userName = user.name ? user.name.split(' ')[0] : 'Estudiante';
+            document.getElementById('user-display').textContent = `Hola, ${userName}`;
+            document.getElementById('welcome-msg').textContent = `¡Vamos a progresar, ${user.name || 'Estudiante'}!`;
 
             // Populate Stats
             const progress = user.perfilCompletado || 0;

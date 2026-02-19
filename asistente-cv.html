@@ -9,6 +9,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@700;800&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/cv-editor.css">
     <link rel="stylesheet" href="css/cv-print.css">
     <style>
         .split-layout {
@@ -91,8 +92,8 @@
         <div class="container nav-container">
             <a href="menu.html" class="logo">PIENSA</a>
             <div class="nav-links">
-                <button class="btn btn-secondary" onclick="window.print()">🖨️ Imprimir PDF</button>
-                <button class="btn btn-primary" onclick="saveCV()">💾 Guardar</button>
+                <button class="btn btn-primary" onclick="window.print()">🖨️ Imprimir Hoja de Vida</button>
+                <button class="btn btn-secondary" onclick="saveCV()">💾 Guardar Progreso</button>
             </div>
         </div>
     </nav>
@@ -102,7 +103,7 @@
 
             <!-- EDITOR -->
             <div class="editor-container no-print" id="cv-form-container">
-                <h2 class="mb-3">Información</h2>
+                <h2 class="mb-3" style="color: var(--primary-color);">Editor Curricular</h2>
 
                 <section class="mb-3">
                     <h3>Datos Personales</h3>

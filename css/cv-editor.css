@@ -1,0 +1,268 @@
+/* SaaS Editor Layout */
+
+/* App Layout: Full Viewport */
+.app-layout {
+    display: grid;
+    grid-template-columns: 450px 1fr;
+    /* Fixed Sidebar + Flexible Preview */
+    height: 100vh;
+    overflow: hidden;
+    background-color: #F3F4F6;
+}
+
+/* Sidebar Styles */
+.editor-sidebar {
+    background: white;
+    border-right: 1px solid #E5E7EB;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    z-index: 10;
+    box-shadow: 4px 0 24px rgba(0, 0, 0, 0.02);
+}
+
+.editor-header {
+    padding: 1.5rem;
+    border-bottom: 1px solid #F3F4F6;
+    background: white;
+}
+
+.back-link {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    font-weight: 500;
+    display: block;
+    margin-bottom: 0.5rem;
+    text-decoration: none;
+}
+
+.editor-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    margin: 0;
+}
+
+/* Scrollable Content */
+.editor-content {
+    flex: 1;
+    overflow-y: auto;
+    padding: 1.5rem;
+    background-color: #F9FAFB;
+}
+
+/* Footer (Sticky Bottom) */
+.editor-footer {
+    padding: 1.5rem;
+    border-top: 1px solid #E5E7EB;
+    background: white;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+/* Accordion Sections */
+.editor-section {
+    border: 1px solid #E5E7EB;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    background: white;
+    overflow: hidden;
+    transition: all 0.2s;
+}
+
+.editor-section[open] {
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    border-color: #D1D5DB;
+}
+
+.section-toggle {
+    padding: 1rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-weight: 600;
+    color: var(--text-main);
+    background: #FAFAFA;
+    list-style: none;
+    /* Hide default marker */
+}
+
+.section-toggle::-webkit-details-marker {
+    display: none;
+}
+
+.section-toggle h3 {
+    margin: 0;
+    font-size: 1rem;
+    color: var(--text-main);
+}
+
+.toggle-icon {
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    transition: transform 0.2s;
+}
+
+details[open] .toggle-icon {
+    transform: rotate(90deg);
+}
+
+.section-body {
+    padding: 1.5rem;
+    border-top: 1px solid #F3F4F6;
+    animation: slideDown 0.2s ease-out;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Inputs */
+.input-label {
+    display: block;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    margin-bottom: 0.4rem;
+}
+
+.input-field,
+.input-area {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #E5E7EB;
+    border-radius: 6px;
+    font-family: inherit;
+    font-size: 0.95rem;
+    transition: all 0.2s;
+    background: #FFFFFF;
+    color: var(--text-main);
+}
+
+.input-field:focus,
+.input-area:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(15, 23, 42, 0.1);
+}
+
+.grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+.full-width {
+    width: 100%;
+}
+
+.mt-2 {
+    margin-top: 0.75rem;
+}
+
+.mb-2 {
+    margin-bottom: 0.75rem;
+}
+
+/* Status Indicator */
+.save-status {
+    font-size: 0.75rem;
+    color: #10B981;
+    /* Green */
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin-top: 0.5rem;
+    font-weight: 600;
+}
+
+.status-indicator {
+    width: 8px;
+    height: 8px;
+    background: #10B981;
+    border-radius: 50%;
+    box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.2);
+}
+
+/* Preview Area (Right Panel) */
+.preview-area {
+    background-color: #525659;
+    /* Acrobat Reader Gray */
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    /* Start from top */
+    padding: 3rem;
+    overflow-y: auto;
+    /* Custom Scrollbar */
+    scrollbar-width: thin;
+    scrollbar-color: #CBD5E1 #F1F5F9;
+}
+
+.preview-wrapper {
+    /* Paper Container */
+    width: 21cm;
+    /* A4 Width */
+    min-height: 29.7cm;
+    /* A4 Height */
+    background: white;
+    box-shadow: 0 20px 50px -12px rgba(0, 0, 0, 0.5);
+    margin-bottom: 3rem;
+    /* Make sure it renders correctly */
+    position: relative;
+    /* Transform Origin for Scaling if needed */
+    transform-origin: top center;
+}
+
+/* Responsive Scaling */
+@media (max-width: 1200px) {
+    .preview-wrapper {
+        transform: scale(0.85);
+        margin-top: -10%;
+    }
+}
+
+@media (max-width: 1024px) {
+    .app-layout {
+        display: block;
+        /* Stack on mobile */
+        height: auto;
+        overflow: visible;
+    }
+
+    .editor-sidebar {
+        width: 100%;
+        height: auto;
+        border-right: none;
+        box-shadow: none;
+    }
+
+    .editor-content {
+        overflow: visible;
+    }
+
+    .preview-area {
+        padding: 1rem;
+        background: #E5E7EB;
+        display: block;
+        /* Show normally */
+    }
+
+    .preview-wrapper {
+        width: 100%;
+        transform: none;
+        margin: 0;
+        min-height: auto;
+        aspect-ratio: 21/29.7;
+    }
+}

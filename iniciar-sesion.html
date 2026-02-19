@@ -90,12 +90,12 @@
     <div class="auth-container">
         <div class="auth-card">
             <div class="auth-tabs">
-                <button class="tab-btn active" onclick="switchTab('register')">Registrarse</button>
-                <button class="tab-btn" onclick="switchTab('login')">Iniciar Sesión</button>
+                <button type="button" class="tab-btn active" onclick="switchTab('register')">Registrarse</button>
+                <button type="button" class="tab-btn" onclick="switchTab('login')">Iniciar Sesión</button>
             </div>
 
             <!-- Register Form -->
-            <form id="register-form" onsubmit="handleRegister(event)">
+            <form id="register-form" onsubmit="event.preventDefault(); handleRegister(event)">
                 <h2 style="margin-bottom: 1.5rem;">Crea tu cuenta</h2>
 
                 <div class="form-group">
@@ -132,7 +132,7 @@
             </form>
 
             <!-- Login Form -->
-            <form id="login-form" class="hidden" onsubmit="handleLogin(event)">
+            <form id="login-form" class="hidden" onsubmit="event.preventDefault(); handleLogin(event)">
                 <h2 style="margin-bottom: 1.5rem;">Bienvenido de nuevo</h2>
 
                 <div class="form-group">
@@ -158,6 +158,10 @@
         import { doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
         // Expose functions to global scope for HTML event handlers
+        console.log("Firebase Module Loaded");
+
+        window.showToast = window.showToast || function (msg) { alert(msg); }; // Fallback
+
         window.switchTab = function (tab) {
             const regForm = document.getElementById('register-form');
             const loginForm = document.getElementById('login-form');
@@ -176,12 +180,36 @@
             }
         }
 
+
+        // Helper to save user session safely
+        async function saveUserSession(user) {
+            try {
+                // Get extended user data from Firestore
+                const docRef = doc(db, "users", user.uid);
+                const docSnap = await getDoc(docRef);
+
+                let userData = { email: user.email, uid: user.uid };
+
+                if (docSnap.exists()) {
+                    const data = docSnap.data();
+                    userData = { ...data, uid: user.uid };
+                }
+
+                // Explicitly save to localStorage
+                localStorage.setItem('piensaUser', JSON.stringify(userData));
+                console.log("Session saved successfully:", userData.email);
+                return true;
+            } catch (e) {
+                console.error("Error saving session:", e);
+                return false;
+            }
+        }
+
         window.handleRegister = async function (e) {
-            e.preventDefault();
+            e.preventDefault(); // force stop reload
             const email = document.getElementById('reg-email').value;
             const password = document.getElementById('reg-pass').value;
 
-            // Basic validation
             if (password.length < 6) {
                 showToast('La contraseña debe tener al menos 6 caracteres', 'error');
                 return;
@@ -191,6 +219,7 @@
                 const userCredential = await createUserWithEmailAndPassword(auth, email, password);
                 const user = userCredential.user;
 
+                // Save initial Firestore data
                 await setDoc(doc(db, "users", user.uid), {
                     name: document.getElementById('reg-name').value,
                     email: email,
@@ -201,11 +230,14 @@
                     createdAt: new Date()
                 });
 
-                showToast('¡Cuenta creada con éxito! Redirigiendo...', 'success');
+                // Save Session
+                await saveUserSession(user);
+
+                showToast('¡Cuenta creada con éxito!', 'success');
                 setTimeout(() => window.location.href = 'menu.html', 1500);
 
             } catch (error) {
-                console.error("Error:", error);
+                console.error("Register Error:", error);
                 let msg = 'Error al registrarse';
                 if (error.code === 'auth/email-already-in-use') msg = 'El correo ya está registrado';
                 showToast(msg, 'error');
@@ -213,16 +245,29 @@
         }
 
         window.handleLogin = async function (e) {
-            e.preventDefault();
+            e.preventDefault(); // force stop reload
+            console.log("Attempting login...");
+
             const email = document.getElementById('login-email').value;
             const password = document.getElementById('login-pass').value;
 
             try {
+                // Authenticate
                 const userCredential = await signInWithEmailAndPassword(auth, email, password);
+                console.log("Auth successful", userCredential.user.email);
+
+                // Save Session
+                const saved = await saveUserSession(userCredential.user);
+
+                if (!saved) {
+                    throw new Error("No se pudo guardar la sesión en el navegador.");
+                }
+
                 showToast('¡Bienvenido de nuevo!', 'success');
                 setTimeout(() => window.location.href = 'menu.html', 1000);
+
             } catch (error) {
-                console.error("Error:", error);
+                console.error("Login Error:", error);
                 let msg = 'Error al iniciar sesión';
                 if (error.code === 'auth/invalid-credential') msg = 'Correo o contraseña incorrectos';
                 if (error.code === 'auth/user-not-found') msg = 'Usuario no encontrado';
@@ -230,6 +275,7 @@
                 showToast(msg, 'error');
             }
         }
+
     </script>
 </body>
 

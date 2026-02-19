@@ -1,455 +1,252 @@
 <!DOCTYPE html>
 <html lang="es">
 
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Constructor de CV - Estilo Harvard</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@700;800&display=swap"
-        rel="stylesheet">
+    <title>Constructor de CV Profesional - PIENSA</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/cv-editor.css">
     <link rel="stylesheet" href="css/cv-print.css">
-    <style>
-        .split-layout {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 2rem;
-            align-items: start;
-        }
-
-        @media (max-width: 1024px) {
-            .split-layout {
-                grid-template-columns: 1fr;
-            }
-
-            .cv-preview {
-                display: none;
-                /* Hide preview on small screens initially */
-            }
-        }
-
-        .editor-container {
-            background: #F8FAFC;
-            padding: 1.5rem;
-            border-radius: var(--radius-md);
-            max-height: 90vh;
-            overflow-y: auto;
-        }
-
-        .full-width {
-            width: 100%;
-            padding: 0.5rem;
-            border: 1px solid #CBD5E1;
-            border-radius: 4px;
-        }
-
-        .mb-2 {
-            margin-bottom: 0.5rem;
-        }
-
-        .mb-3 {
-            margin-bottom: 1rem;
-        }
-
-        .p-3 {
-            padding: 1rem;
-        }
-
-        .gap-2 {
-            gap: 0.5rem;
-        }
-
-        .d-flex {
-            display: flex;
-        }
-
-        .justify-content-between {
-            justify-content: space-between;
-        }
-
-        .section-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1rem;
-            border-bottom: 1px solid #E2E8F0;
-            padding-bottom: 0.5rem;
-        }
-
-        .card {
-            background: white;
-            border: 1px solid #E2E8F0;
-            border-radius: var(--radius-sm);
-        }
-    </style>
 </head>
 
-<body style="background: #F1F5F9;">
-
-    <nav class="navbar no-print">
-        <div class="container nav-container">
-            <a href="menu.html" class="logo">PIENSA</a>
-            <div class="nav-links">
-                <button class="btn btn-primary" onclick="window.print()">🖨️ Imprimir Hoja de Vida</button>
-                <button class="btn btn-secondary" onclick="saveCV()">💾 Guardar Progreso</button>
-            </div>
+<body class="cv-app-body">
+    <header class="cv-topbar no-print">
+        <a href="menu.html" class="logo">PIENSA</a>
+        <div class="cv-topbar-actions">
+            <button type="button" class="cv-btn cv-btn-primary" onclick="saveCV(false)">Guardar</button>
+            <button type="button" class="cv-btn cv-btn-dark" onclick="window.print()">Imprimir</button>
+            <button type="button" class="cv-btn cv-btn-secondary" onclick="downloadPDF()">Descargar PDF</button>
         </div>
-    </nav>
+        <div id="save-status" class="save-status" aria-live="polite">Sin cambios</div>
+    </header>
 
-    <main class="container" style="margin-top: 2rem;">
-        <div class="split-layout">
+    <main class="cv-workspace">
+        <section class="editor-panel no-print" id="cv-form-container" aria-label="Editor de currículum">
+            <div class="editor-panel-inner">
+                <h1 class="editor-heading">Editor de Currículum</h1>
 
-            <!-- EDITOR -->
-            <div class="editor-container no-print" id="cv-form-container">
-                <h2 class="mb-3" style="color: var(--primary-color);">Editor Curricular</h2>
-
-                <section class="mb-3">
-                    <h3>Datos Personales</h3>
-                    <div class="card p-3">
-                        <input type="text" id="fullName" class="full-width mb-2" placeholder="Nombre Completo">
-                        <input type="email" id="email" class="full-width mb-2" placeholder="Correo Electrónico">
-                        <input type="text" id="phone" class="full-width mb-2" placeholder="Teléfono">
-                        <input type="text" id="location" class="full-width mb-2" placeholder="Ciudad, País">
-                        <input type="text" id="linkedin" class="full-width" placeholder="LinkedIn URL">
+                <article class="form-card">
+                    <h2>Información personal</h2>
+                    <div class="field-grid two-col">
+                        <div class="field-group">
+                            <label for="fullName">Nombre</label>
+                            <input id="fullName" class="input-field" type="text" placeholder="Ej: Ana Pérez">
+                        </div>
+                        <div class="field-group">
+                            <label for="email">Email</label>
+                            <input id="email" class="input-field" type="email" placeholder="ana@email.com">
+                        </div>
+                        <div class="field-group">
+                            <label for="phone">Teléfono</label>
+                            <input id="phone" class="input-field" type="text" placeholder="0991234567">
+                        </div>
+                        <div class="field-group">
+                            <label for="location">Dirección</label>
+                            <input id="location" class="input-field" type="text" placeholder="Cuenca, Ecuador">
+                        </div>
+                        <div class="field-group two-col-span">
+                            <label for="linkedin">LinkedIn</label>
+                            <input id="linkedin" class="input-field" type="url" placeholder="https://linkedin.com/in/usuario">
+                        </div>
+                        <div class="field-group two-col-span">
+                            <label for="photoInput">Foto</label>
+                            <input id="photoInput" class="input-field" type="file" accept="image/*" onchange="handlePhotoUpload()">
+                        </div>
                     </div>
-                </section>
+                </article>
 
-                <section class="mb-3">
-                    <h3>Perfil Profesional</h3>
-                    <textarea id="profile" class="full-width" rows="4" placeholder="Resumen breve..."></textarea>
-                </section>
+                <article class="form-card">
+                    <h2>Perfil profesional</h2>
+                    <div class="field-group">
+                        <label for="profile">Resumen</label>
+                        <textarea id="profile" class="input-area" rows="4" placeholder="Describe tu propuesta de valor profesional"></textarea>
+                    </div>
+                </article>
 
-                <section class="mb-3">
+                <article class="form-card dynamic-card">
                     <div class="section-header">
-                        <h3>Experiencia</h3>
-                        <button class="btn btn-sm btn-secondary" onclick="addExperience()">+ Añadir</button>
+                        <h2>Experiencia laboral</h2>
+                        <button type="button" class="cv-btn cv-btn-secondary" onclick="addExperience()">+ Añadir sección</button>
                     </div>
-                    <div id="experience-container"></div>
-                </section>
+                    <div id="experience-container" class="stack"></div>
+                </article>
 
-                <section class="mb-3">
+                <article class="form-card dynamic-card">
                     <div class="section-header">
-                        <h3>Educación</h3>
-                        <button class="btn btn-sm btn-secondary" onclick="addEducation()">+ Añadir</button>
+                        <h2>Educación</h2>
+                        <button type="button" class="cv-btn cv-btn-secondary" onclick="addEducation()">+ Añadir sección</button>
                     </div>
-                    <div id="education-container"></div>
-                </section>
+                    <div id="education-container" class="stack"></div>
+                </article>
 
-                <section class="mb-3">
-                    <h3>Habilidades</h3>
-                    <textarea id="skills-input" class="full-width" rows="3"
-                        placeholder="Habilidades Técnicas, Idiomas, Herramientas... (separadas por comas)"
-                        oninput="updateSkills()"></textarea>
-                </section>
+                <article class="form-card">
+                    <h2>Habilidades</h2>
+                    <div class="field-group">
+                        <label for="skills-input">Habilidades</label>
+                        <textarea id="skills-input" class="input-area" rows="3" placeholder="Liderazgo, SQL, Excel, Comunicación..."></textarea>
+                    </div>
+                </article>
+
+                <article class="form-card dynamic-card">
+                    <div class="section-header">
+                        <h2>Idiomas</h2>
+                        <button type="button" class="cv-btn cv-btn-secondary" onclick="addLanguage()">+ Añadir sección</button>
+                    </div>
+                    <div id="languages-container" class="stack"></div>
+                </article>
+
+                <article class="form-card dynamic-card">
+                    <div class="section-header">
+                        <h2>Certificaciones</h2>
+                        <button type="button" class="cv-btn cv-btn-secondary" onclick="addCertification()">+ Añadir sección</button>
+                    </div>
+                    <div id="certs-container" class="stack"></div>
+                </article>
+
+                <article class="form-card dynamic-card">
+                    <div class="section-header">
+                        <h2>Proyectos</h2>
+                        <button type="button" class="cv-btn cv-btn-secondary" onclick="addProject()">+ Añadir sección</button>
+                    </div>
+                    <div id="projects-container" class="stack"></div>
+                </article>
+
+                <article class="form-card dynamic-card">
+                    <div class="section-header">
+                        <h2>Cursos</h2>
+                        <button type="button" class="cv-btn cv-btn-secondary" onclick="addCourse()">+ Añadir sección</button>
+                    </div>
+                    <div id="courses-container" class="stack"></div>
+                </article>
+
+                <article class="form-card dynamic-card">
+                    <div class="section-header">
+                        <h2>Referencias (opcional)</h2>
+                        <button type="button" class="cv-btn cv-btn-secondary" onclick="addReference()">+ Añadir sección</button>
+                    </div>
+                    <div id="refs-container" class="stack"></div>
+                </article>
             </div>
+        </section>
 
-            <!-- PREVIEW (Harvard Style) -->
-            <div class="cv-preview" id="cv-preview">
-                <header class="cv-header">
-                    <div class="cv-name" id="preview-name">TU NOMBRE</div>
-                    <div class="cv-contact-info" id="preview-contact">Correo | Teléfono | Ubicación</div>
-                </header>
+        <section class="preview-panel" aria-label="Vista previa de currículum">
+            <div class="preview-scroll">
+                <article id="cv-preview" class="cv-preview harvard-paper">
+                    <header class="cv-header">
+                        <div id="preview-photo-container" class="preview-photo-container hidden">
+                            <img id="preview-photo-img" class="preview-photo" alt="Foto de perfil" src="">
+                        </div>
+                        <div class="cv-name" id="preview-name">TU NOMBRE</div>
+                        <div class="cv-contact-info" id="preview-contact">correo@email.com · +593 999 999 999 · Ciudad · linkedin.com/in/usuario</div>
+                    </header>
 
-                <div class="cv-section" id="preview-profile-section" style="display: none;">
-                    <div class="cv-section-title">Perfil Profesional</div>
-                    <p id="preview-profile" style="font-size: 11pt;"></p>
-                </div>
+                    <section class="cv-section" id="preview-profile-section" style="display:none;">
+                        <h3 class="cv-section-title">PERFIL PROFESIONAL</h3>
+                        <p id="preview-profile"></p>
+                    </section>
 
-                <div class="cv-section" id="preview-experience-section" style="display: none;">
-                    <div class="cv-section-title">Experiencia</div>
-                    <div id="preview-experience-list"></div>
-                </div>
+                    <section class="cv-section" id="preview-experience-section" style="display:none;">
+                        <h3 class="cv-section-title">EXPERIENCIA LABORAL</h3>
+                        <div id="preview-experience-list"></div>
+                    </section>
 
-                <div class="cv-section" id="preview-education-section" style="display: none;">
-                    <div class="cv-section-title">Educación</div>
-                    <div id="preview-education-list"></div>
-                </div>
+                    <section class="cv-section" id="preview-education-section" style="display:none;">
+                        <h3 class="cv-section-title">EDUCACIÓN</h3>
+                        <div id="preview-education-list"></div>
+                    </section>
 
-                <div class="cv-section" id="preview-skills-section" style="display: none;">
-                    <div class="cv-section-title">Habilidades y Idiomas</div>
-                    <div style="margin-bottom: 0.5rem;">
-                        <strong>Técnicas:</strong> <span id="preview-skills"></span>
-                    </div>
-                    <div id="preview-soft-skills-container" style="display: none; margin-bottom: 0.5rem;">
-                        <strong>Blandas:</strong> <span id="preview-soft-skills"></span>
-                    </div>
-                    <div id="preview-languages-list"></div>
-                </div>
+                    <section class="cv-section" id="preview-skills-section" style="display:none;">
+                        <h3 class="cv-section-title">HABILIDADES</h3>
+                        <p id="preview-skills"></p>
+                    </section>
+
+                    <section class="cv-section" id="preview-languages-section" style="display:none;">
+                        <h3 class="cv-section-title">IDIOMAS</h3>
+                        <div id="preview-languages-list"></div>
+                    </section>
+
+                    <section class="cv-section" id="preview-certs-section" style="display:none;">
+                        <h3 class="cv-section-title">CERTIFICACIONES</h3>
+                        <div id="preview-certs-list"></div>
+                    </section>
+
+                    <section class="cv-section" id="preview-projects-section" style="display:none;">
+                        <h3 class="cv-section-title">PROYECTOS</h3>
+                        <div id="preview-projects-list"></div>
+                    </section>
+
+                    <section class="cv-section" id="preview-courses-section" style="display:none;">
+                        <h3 class="cv-section-title">CURSOS</h3>
+                        <div id="preview-courses-list"></div>
+                    </section>
+
+                    <section class="cv-section" id="preview-refs-section" style="display:none;">
+                        <h3 class="cv-section-title">REFERENCIAS</h3>
+                        <div id="preview-refs-list"></div>
+                    </section>
+                </article>
             </div>
-
-        </div>
+        </section>
     </main>
 
     <script src="js/app.js"></script>
     <script src="js/cv-builder.js"></script>
     <script type="module">
         import { db, auth } from './js/firebase-init.js';
-        import { doc, getDoc, setDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+        import { doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
         import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
         let currentUser = null;
 
-        // Listen for auth state
         onAuthStateChanged(auth, async (user) => {
-            if (user) {
-                currentUser = user;
-                loadCV(user.uid);
-            } else {
-                // Not saving/loading if not logged in
-                console.log("No user logged in");
-            }
+            if (!user) return;
+            currentUser = user;
+            await window.loadCV(user.uid);
         });
 
-        // Load CV Data
-        async function loadCV(uid) {
+        window.loadCV = async function loadCV(userId) {
             try {
-                const docRef = doc(db, "cvs", uid);
-                const docSnap = await getDoc(docRef);
-
-                if (docSnap.exists()) {
-                    const data = docSnap.data();
-
-                    // 1. Personal & Profile
-                    document.getElementById('fullName').value = data.personal?.fullName || '';
-                    document.getElementById('email').value = data.personal?.email || '';
-                    document.getElementById('phone').value = data.personal?.phone || '';
-                    document.getElementById('location').value = data.personal?.location || '';
-                    document.getElementById('linkedin').value = data.personal?.linkedin || '';
-                    document.getElementById('profile').value = data.profile || '';
-
-                    // Photo
-                    if (data.personal?.photo) {
-                        const header = document.querySelector('.cv-header');
-                        // Remove existing if any
-                        const existing = document.getElementById('preview-photo-container');
-                        if (existing) existing.remove();
-
-                        const photoContainer = document.createElement('div');
-                        photoContainer.id = 'preview-photo-container';
-                        photoContainer.innerHTML = `<img id="preview-photo-img" src="${data.personal.photo}" style="width: 100px; height: 100px; border-radius: 50%; object-fit: cover; margin-bottom: 1rem;">`;
-                        header.insertBefore(photoContainer, header.firstChild);
-                    }
-
-                    // 2. Skills
-                    document.getElementById('skills-input').value = data.skills?.hard || '';
-                    document.getElementById('soft-skills-input').value = data.skills?.soft || '';
-
-                    // 3. Experience (Clear first?)
-                    document.getElementById('experience-container').innerHTML = '';
-                    if (data.experience) {
-                        data.experience.forEach(exp => {
-                            addExperience();
-                            const cards = document.querySelectorAll('#experience-container .editor-card');
-                            const lastCard = cards[cards.length - 1];
-                            if (lastCard) {
-                                lastCard.querySelector('.input-exp-role').value = exp.role || '';
-                                lastCard.querySelector('.input-exp-company').value = exp.company || '';
-                                lastCard.querySelector('.input-exp-date').value = exp.date || '';
-                                lastCard.querySelector('.input-exp-loc').value = exp.location || '';
-                                lastCard.querySelector('.input-exp-desc').value = exp.description || '';
-                            }
-                        });
-                    }
-
-                    // 4. Education
-                    document.getElementById('education-container').innerHTML = '';
-                    if (data.education) {
-                        data.education.forEach(edu => {
-                            addEducation();
-                            const cards = document.querySelectorAll('#education-container .editor-card');
-                            const lastCard = cards[cards.length - 1];
-                            if (lastCard) {
-                                lastCard.querySelector('.input-edu-school').value = edu.school || '';
-                                lastCard.querySelector('.input-edu-degree').value = edu.degree || '';
-                                lastCard.querySelector('.input-edu-date').value = edu.date || '';
-                                lastCard.querySelector('.input-edu-loc').value = edu.location || '';
-                            }
-                        });
-                    }
-
-                    // 5. Languages
-                    document.getElementById('languages-container').innerHTML = '';
-                    if (data.languages) {
-                        data.languages.forEach(lang => {
-                            addLanguage();
-                            const cards = document.querySelectorAll('#languages-container .editor-card');
-                            const lastCard = cards[cards.length - 1];
-                            if (lastCard) {
-                                lastCard.querySelector('.input-lang-name').value = lang.name || '';
-                                lastCard.querySelector('.input-lang-level').value = lang.level || 'Intermedio';
-                            }
-                        });
-                    }
-
-                    // 6. Projects
-                    document.getElementById('projects-container').innerHTML = '';
-                    if (data.projects) {
-                        data.projects.forEach(proj => {
-                            addProject();
-                            const cards = document.querySelectorAll('#projects-container .editor-card');
-                            const lastCard = cards[cards.length - 1];
-                            if (lastCard) {
-                                lastCard.querySelector('.input-proj-name').value = proj.name || '';
-                                lastCard.querySelector('.input-proj-link').value = proj.link || '';
-                                lastCard.querySelector('.input-proj-desc').value = proj.description || '';
-                            }
-                        });
-                    }
-
-                    // 7. Certifications
-                    document.getElementById('certs-container').innerHTML = '';
-                    if (data.certifications) {
-                        data.certifications.forEach(cert => {
-                            addCertification();
-                            const cards = document.querySelectorAll('#certs-container .editor-card');
-                            const lastCard = cards[cards.length - 1];
-                            if (lastCard) {
-                                lastCard.querySelector('.input-cert-name').value = cert.name || '';
-                                lastCard.querySelector('.input-cert-issuer').value = cert.issuer || '';
-                                lastCard.querySelector('.input-cert-date').value = cert.date || '';
-                            }
-                        });
-                    }
-
-                    // 8. References
-                    document.getElementById('refs-container').innerHTML = '';
-                    if (data.references) {
-                        data.references.forEach(ref => {
-                            addReference();
-                            const cards = document.querySelectorAll('#refs-container .editor-card');
-                            const lastCard = cards[cards.length - 1];
-                            if (lastCard) {
-                                lastCard.querySelector('.input-ref-name').value = ref.name || '';
-                                lastCard.querySelector('.input-ref-role').value = ref.role || '';
-                                lastCard.querySelector('.input-ref-contact').value = ref.contact || '';
-                            }
-                        });
-                    }
-
-                    // Trigger update
-                    updatePreview();
-                    updateSkills();
-                    if (window.showToast) showToast('CV cargado correctamente', 'success');
-                }
+                const docSnap = await getDoc(doc(db, 'cvs', userId));
+                if (!docSnap.exists()) return;
+                const data = docSnap.data();
+                if (window.fillCVForm) window.fillCVForm(data);
+                if (window.showToast) window.showToast('CV cargado correctamente', 'success');
             } catch (error) {
-                console.error("Error loading CV:", error);
-                if (window.showToast) showToast('Error al cargar datos anteriores', 'error');
+                console.error('Error al cargar CV', error);
+                if (window.showToast) window.showToast('No se pudo cargar el CV', 'error');
             }
         }
 
-        window.saveCV = async function () {
+        window.saveCV = async function saveCV(silent = false) {
             if (!currentUser) {
-                showToast('Debes iniciar sesión para guardar', 'error');
+                if (!silent && window.showToast) window.showToast('Inicia sesión para guardar tu CV', 'warning');
                 return;
             }
 
-            // Get Photo Base64 if exists
-            let photoData = null;
-            const img = document.getElementById('preview-photo-img');
-            if (img && img.src && img.src.startsWith('data:image')) {
-                photoData = img.src;
-            }
-
-            const cvData = {
-                personal: {
-                    fullName: document.getElementById('fullName').value,
-                    email: document.getElementById('email').value,
-                    phone: document.getElementById('phone').value,
-                    location: document.getElementById('location').value,
-                    linkedin: document.getElementById('linkedin').value,
-                    photo: photoData
-                },
-                profile: document.getElementById('profile').value,
-                skills: {
-                    hard: document.getElementById('skills-input').value,
-                    soft: document.getElementById('soft-skills-input').value
-                },
-                experience: [],
-                education: [],
-                languages: [],
-                projects: [],
-                certifications: [],
-                references: [],
-                updatedAt: new Date()
-            };
-
-            // Collect Experience
-            document.querySelectorAll('#experience-container .editor-card').forEach(card => {
-                cvData.experience.push({
-                    role: card.querySelector('.input-exp-role').value,
-                    company: card.querySelector('.input-exp-company').value,
-                    date: card.querySelector('.input-exp-date').value,
-                    location: card.querySelector('.input-exp-loc').value,
-                    description: card.querySelector('.input-exp-desc').value,
-                });
-            });
-
-            // Collect Education
-            document.querySelectorAll('#education-container .editor-card').forEach(card => {
-                cvData.education.push({
-                    school: card.querySelector('.input-edu-school').value,
-                    degree: card.querySelector('.input-edu-degree').value,
-                    date: card.querySelector('.input-edu-date').value,
-                    location: card.querySelector('.input-edu-loc').value,
-                });
-            });
-
-            // Collect Languages
-            document.querySelectorAll('#languages-container .editor-card').forEach(card => {
-                cvData.languages.push({
-                    name: card.querySelector('.input-lang-name').value,
-                    level: card.querySelector('.input-lang-level').value
-                });
-            });
-
-            // Collect Projects
-            document.querySelectorAll('#projects-container .editor-card').forEach(card => {
-                cvData.projects.push({
-                    name: card.querySelector('.input-proj-name').value,
-                    link: card.querySelector('.input-proj-link').value,
-                    description: card.querySelector('.input-proj-desc').value
-                });
-            });
-
-            // Collect Certifications
-            document.querySelectorAll('#certs-container .editor-card').forEach(card => {
-                cvData.certifications.push({
-                    name: card.querySelector('.input-cert-name').value,
-                    issuer: card.querySelector('.input-cert-issuer').value,
-                    date: card.querySelector('.input-cert-date').value
-                });
-            });
-
-            // Collect References
-            document.querySelectorAll('#refs-container .editor-card').forEach(card => {
-                cvData.references.push({
-                    name: card.querySelector('.input-ref-name').value,
-                    role: card.querySelector('.input-ref-role').value,
-                    contact: card.querySelector('.input-ref-contact').value
-                });
-            });
-
             try {
-                // Use setDoc with merge: true to avoid overwriting unrelated fields if any
-                await setDoc(doc(db, "cvs", currentUser.uid), cvData, { merge: true });
-                console.log("CV Saved:", cvData);
-                showToast('CV guardado exitosamente', 'success');
+                const payload = window.collectCVData();
+                await setDoc(doc(db, 'cvs', currentUser.uid), {
+                    ...payload,
+                    updatedAt: new Date()
+                }, { merge: true });
 
-                // Trigger fake auto-save indicator in UI too
-                const status = document.getElementById('save-status');
-                if (status) {
-                    status.innerHTML = '<span class="status-indicator"></span> Guardado';
-                }
-
+                if (window.setSaveStatus) window.setSaveStatus('Guardado');
+                if (!silent && window.showToast) window.showToast('CV guardado exitosamente', 'success');
             } catch (error) {
-                console.error("Error saving CV:", error);
-                showToast('Error al guardar CV: ' + error.message, 'error');
+                console.error('Error al guardar CV', error);
+                if (window.setSaveStatus) window.setSaveStatus('Error al guardar', true);
+                if (!silent && window.showToast) window.showToast('Error al guardar CV', 'error');
             }
+        }
+
+        window.downloadPDF = function downloadPDF() {
+            window.print();
         }
     </script>
 </body>
-
 
 </html>

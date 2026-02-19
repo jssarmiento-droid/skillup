@@ -88,26 +88,25 @@
         margin: 12mm;
     }
 
-    body,
-    html {
+    html,
+    body {
         background: #fff !important;
         margin: 0 !important;
         padding: 0 !important;
     }
 
-    body * {
+    body.printing-cv * {
         visibility: hidden !important;
     }
 
-    #cv-preview,
-    #cv-preview * {
+    body.printing-cv #cv-preview,
+    body.printing-cv #cv-preview * {
         visibility: visible !important;
     }
 
-    #cv-preview {
+    body.printing-cv #cv-preview {
         position: absolute !important;
-        top: 0 !important;
-        left: 0 !important;
+        inset: 0 !important;
         width: 100% !important;
         min-height: auto !important;
         margin: 0 !important;
@@ -116,9 +115,10 @@
         box-shadow: none !important;
     }
 
-    .no-print,
-    .cv-topbar,
-    .editor-panel {
+    body.printing-cv .no-print,
+    body.printing-cv .cv-topbar,
+    body.printing-cv .editor-panel,
+    body.printing-cv .preview-scroll {
         display: none !important;
     }
 }

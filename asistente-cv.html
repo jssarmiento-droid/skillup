@@ -244,45 +244,25 @@
         }
 
         window.printCV = function printCV() {
-            const cvNode = document.getElementById('cv-preview');
-            if (!cvNode) return;
+            const originalTitle = document.title;
+            document.body.classList.add('printing-cv');
+            document.title = '';
 
-            const printWindow = window.open('', '_blank', 'width=900,height=1200');
-            if (!printWindow) {
-                window.print();
-                return;
-            }
+            const cleanup = () => {
+                document.body.classList.remove('printing-cv');
+                document.title = originalTitle;
+                window.removeEventListener('afterprint', cleanup);
+            };
 
-            const cvHtml = cvNode.outerHTML;
-            const baseUrl = window.location.origin + window.location.pathname.replace(/[^/]+$/, '');
+            window.addEventListener('afterprint', cleanup, { once: true });
 
-            printWindow.document.open();
-            printWindow.document.write(`
-                <!DOCTYPE html>
-                <html lang="es">
-                <head>
-                    <meta charset="UTF-8">
-                    <title></title>
-                    <base href="${baseUrl}">
-                    <link rel="preconnect" href="https://fonts.googleapis.com">
-                    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-                    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-                    <link rel="stylesheet" href="css/cv-print.css">
-                    <style>
-                        body { margin: 0; padding: 12mm; background: #fff; }
-                        .cv-preview { width: 100%; min-height: auto; margin: 0; border: none; box-shadow: none; padding: 0; }
-                    </style>
-                </head>
-                <body>${cvHtml}</body>
-                </html>
-            `);
-            printWindow.document.close();
+            window.print();
 
             setTimeout(() => {
-                printWindow.focus();
-                printWindow.print();
-                printWindow.close();
-            }, 400);
+                if (document.body.classList.contains('printing-cv')) {
+                    cleanup();
+                }
+            }, 1200);
         }
 
         window.downloadPDF = function downloadPDF() {

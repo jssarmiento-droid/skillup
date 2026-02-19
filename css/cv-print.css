@@ -88,6 +88,7 @@
         margin: 12mm;
     }
 
+codex/provide-recommendations-bjmnsl
     html,
     body {
         background: #fff !important;
@@ -120,5 +121,41 @@
     body.printing-cv .editor-panel,
     body.printing-cv .preview-scroll {
         display: none !important;
+
+    body,
+    html {
+        background: #fff !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+
+    .no-print,
+    .cv-topbar,
+    .editor-panel,
+    .preview-scroll {
+        display: none !important;
+    }
+
+    .preview-panel {
+        border: none !important;
+        box-shadow: none !important;
+        overflow: visible !important;
+        background: #fff !important;
+    }
+
+    .cv-workspace {
+        display: block !important;
+        height: auto !important;
+        padding: 0 !important;
+    }
+
+    .cv-preview {
+        width: 100% !important;
+        min-height: auto !important;
+        border: none !important;
+        box-shadow: none !important;
+        margin: 0 !important;
+        padding: 0 !important;
+ main
     }
 }

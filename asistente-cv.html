@@ -205,38 +205,120 @@
                 if (docSnap.exists()) {
                     const data = docSnap.data();
 
+                    // 1. Personal & Profile
                     document.getElementById('fullName').value = data.personal?.fullName || '';
                     document.getElementById('email').value = data.personal?.email || '';
                     document.getElementById('phone').value = data.personal?.phone || '';
                     document.getElementById('location').value = data.personal?.location || '';
                     document.getElementById('linkedin').value = data.personal?.linkedin || '';
                     document.getElementById('profile').value = data.profile || '';
-                    document.getElementById('skills-input').value = data.skills || '';
 
-                    // Load Exp
+                    // Photo
+                    if (data.personal?.photo) {
+                        const header = document.querySelector('.cv-header');
+                        // Remove existing if any
+                        const existing = document.getElementById('preview-photo-container');
+                        if (existing) existing.remove();
+
+                        const photoContainer = document.createElement('div');
+                        photoContainer.id = 'preview-photo-container';
+                        photoContainer.innerHTML = `<img id="preview-photo-img" src="${data.personal.photo}" style="width: 100px; height: 100px; border-radius: 50%; object-fit: cover; margin-bottom: 1rem;">`;
+                        header.insertBefore(photoContainer, header.firstChild);
+                    }
+
+                    // 2. Skills
+                    document.getElementById('skills-input').value = data.skills?.hard || '';
+                    document.getElementById('soft-skills-input').value = data.skills?.soft || '';
+
+                    // 3. Experience (Clear first?)
+                    document.getElementById('experience-container').innerHTML = '';
                     if (data.experience) {
                         data.experience.forEach(exp => {
                             addExperience();
-                            const cards = document.querySelectorAll('#experience-container .card');
+                            const cards = document.querySelectorAll('#experience-container .editor-card');
                             const lastCard = cards[cards.length - 1];
-                            lastCard.querySelector('.input-exp-role').value = exp.role;
-                            lastCard.querySelector('.input-exp-company').value = exp.company;
-                            lastCard.querySelector('.input-exp-date').value = exp.date;
-                            lastCard.querySelector('.input-exp-loc').value = exp.location;
-                            lastCard.querySelector('.input-exp-desc').value = exp.description;
+                            if (lastCard) {
+                                lastCard.querySelector('.input-exp-role').value = exp.role || '';
+                                lastCard.querySelector('.input-exp-company').value = exp.company || '';
+                                lastCard.querySelector('.input-exp-date').value = exp.date || '';
+                                lastCard.querySelector('.input-exp-loc').value = exp.location || '';
+                                lastCard.querySelector('.input-exp-desc').value = exp.description || '';
+                            }
                         });
                     }
 
-                    // Load Edu
+                    // 4. Education
+                    document.getElementById('education-container').innerHTML = '';
                     if (data.education) {
                         data.education.forEach(edu => {
                             addEducation();
-                            const cards = document.querySelectorAll('#education-container .card');
+                            const cards = document.querySelectorAll('#education-container .editor-card');
                             const lastCard = cards[cards.length - 1];
-                            lastCard.querySelector('.input-edu-school').value = edu.school;
-                            lastCard.querySelector('.input-edu-degree').value = edu.degree;
-                            lastCard.querySelector('.input-edu-date').value = edu.date;
-                            lastCard.querySelector('.input-edu-loc').value = edu.location;
+                            if (lastCard) {
+                                lastCard.querySelector('.input-edu-school').value = edu.school || '';
+                                lastCard.querySelector('.input-edu-degree').value = edu.degree || '';
+                                lastCard.querySelector('.input-edu-date').value = edu.date || '';
+                                lastCard.querySelector('.input-edu-loc').value = edu.location || '';
+                            }
+                        });
+                    }
+
+                    // 5. Languages
+                    document.getElementById('languages-container').innerHTML = '';
+                    if (data.languages) {
+                        data.languages.forEach(lang => {
+                            addLanguage();
+                            const cards = document.querySelectorAll('#languages-container .editor-card');
+                            const lastCard = cards[cards.length - 1];
+                            if (lastCard) {
+                                lastCard.querySelector('.input-lang-name').value = lang.name || '';
+                                lastCard.querySelector('.input-lang-level').value = lang.level || 'Intermedio';
+                            }
+                        });
+                    }
+
+                    // 6. Projects
+                    document.getElementById('projects-container').innerHTML = '';
+                    if (data.projects) {
+                        data.projects.forEach(proj => {
+                            addProject();
+                            const cards = document.querySelectorAll('#projects-container .editor-card');
+                            const lastCard = cards[cards.length - 1];
+                            if (lastCard) {
+                                lastCard.querySelector('.input-proj-name').value = proj.name || '';
+                                lastCard.querySelector('.input-proj-link').value = proj.link || '';
+                                lastCard.querySelector('.input-proj-desc').value = proj.description || '';
+                            }
+                        });
+                    }
+
+                    // 7. Certifications
+                    document.getElementById('certs-container').innerHTML = '';
+                    if (data.certifications) {
+                        data.certifications.forEach(cert => {
+                            addCertification();
+                            const cards = document.querySelectorAll('#certs-container .editor-card');
+                            const lastCard = cards[cards.length - 1];
+                            if (lastCard) {
+                                lastCard.querySelector('.input-cert-name').value = cert.name || '';
+                                lastCard.querySelector('.input-cert-issuer').value = cert.issuer || '';
+                                lastCard.querySelector('.input-cert-date').value = cert.date || '';
+                            }
+                        });
+                    }
+
+                    // 8. References
+                    document.getElementById('refs-container').innerHTML = '';
+                    if (data.references) {
+                        data.references.forEach(ref => {
+                            addReference();
+                            const cards = document.querySelectorAll('#refs-container .editor-card');
+                            const lastCard = cards[cards.length - 1];
+                            if (lastCard) {
+                                lastCard.querySelector('.input-ref-name').value = ref.name || '';
+                                lastCard.querySelector('.input-ref-role').value = ref.role || '';
+                                lastCard.querySelector('.input-ref-contact').value = ref.contact || '';
+                            }
                         });
                     }
 
@@ -247,6 +329,7 @@
                 }
             } catch (error) {
                 console.error("Error loading CV:", error);
+                if (window.showToast) showToast('Error al cargar datos anteriores', 'error');
             }
         }
 
@@ -256,6 +339,13 @@
                 return;
             }
 
+            // Get Photo Base64 if exists
+            let photoData = null;
+            const img = document.getElementById('preview-photo-img');
+            if (img && img.src && img.src.startsWith('data:image')) {
+                photoData = img.src;
+            }
+
             const cvData = {
                 personal: {
                     fullName: document.getElementById('fullName').value,
@@ -263,16 +353,24 @@
                     phone: document.getElementById('phone').value,
                     location: document.getElementById('location').value,
                     linkedin: document.getElementById('linkedin').value,
+                    photo: photoData
                 },
                 profile: document.getElementById('profile').value,
-                skills: document.getElementById('skills-input').value,
+                skills: {
+                    hard: document.getElementById('skills-input').value,
+                    soft: document.getElementById('soft-skills-input').value
+                },
                 experience: [],
                 education: [],
+                languages: [],
+                projects: [],
+                certifications: [],
+                references: [],
                 updatedAt: new Date()
             };
 
-            // Collect Exp
-            document.querySelectorAll('#experience-container .card').forEach(card => {
+            // Collect Experience
+            document.querySelectorAll('#experience-container .editor-card').forEach(card => {
                 cvData.experience.push({
                     role: card.querySelector('.input-exp-role').value,
                     company: card.querySelector('.input-exp-company').value,
@@ -282,8 +380,8 @@
                 });
             });
 
-            // Collect Edu
-            document.querySelectorAll('#education-container .card').forEach(card => {
+            // Collect Education
+            document.querySelectorAll('#education-container .editor-card').forEach(card => {
                 cvData.education.push({
                     school: card.querySelector('.input-edu-school').value,
                     degree: card.querySelector('.input-edu-degree').value,
@@ -292,12 +390,56 @@
                 });
             });
 
+            // Collect Languages
+            document.querySelectorAll('#languages-container .editor-card').forEach(card => {
+                cvData.languages.push({
+                    name: card.querySelector('.input-lang-name').value,
+                    level: card.querySelector('.input-lang-level').value
+                });
+            });
+
+            // Collect Projects
+            document.querySelectorAll('#projects-container .editor-card').forEach(card => {
+                cvData.projects.push({
+                    name: card.querySelector('.input-proj-name').value,
+                    link: card.querySelector('.input-proj-link').value,
+                    description: card.querySelector('.input-proj-desc').value
+                });
+            });
+
+            // Collect Certifications
+            document.querySelectorAll('#certs-container .editor-card').forEach(card => {
+                cvData.certifications.push({
+                    name: card.querySelector('.input-cert-name').value,
+                    issuer: card.querySelector('.input-cert-issuer').value,
+                    date: card.querySelector('.input-cert-date').value
+                });
+            });
+
+            // Collect References
+            document.querySelectorAll('#refs-container .editor-card').forEach(card => {
+                cvData.references.push({
+                    name: card.querySelector('.input-ref-name').value,
+                    role: card.querySelector('.input-ref-role').value,
+                    contact: card.querySelector('.input-ref-contact').value
+                });
+            });
+
             try {
-                await setDoc(doc(db, "cvs", currentUser.uid), cvData);
+                // Use setDoc with merge: true to avoid overwriting unrelated fields if any
+                await setDoc(doc(db, "cvs", currentUser.uid), cvData, { merge: true });
+                console.log("CV Saved:", cvData);
                 showToast('CV guardado exitosamente', 'success');
+
+                // Trigger fake auto-save indicator in UI too
+                const status = document.getElementById('save-status');
+                if (status) {
+                    status.innerHTML = '<span class="status-indicator"></span> Guardado';
+                }
+
             } catch (error) {
                 console.error("Error saving CV:", error);
-                showToast('Error al guardar CV', 'error');
+                showToast('Error al guardar CV: ' + error.message, 'error');
             }
         }
     </script>

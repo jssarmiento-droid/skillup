@@ -1,211 +1,306 @@
 <!DOCTYPE html>
 <html lang="es">
 
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Constructor de CV - Plataforma PIENSA</title>
+    <title>Constructor de CV - Estilo Harvard</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@700;800&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/cv-print.css">
     <style>
         .split-layout {
             display: grid;
-            grid-template-columns: 1fr 2fr;
+            grid-template-columns: 1fr 1fr;
             gap: 2rem;
             align-items: start;
         }
 
-        @media (max-width: 768px) {
+        @media (max-width: 1024px) {
             .split-layout {
                 grid-template-columns: 1fr;
             }
+
+            .cv-preview {
+                display: none;
+                /* Hide preview on small screens initially */
+            }
         }
 
-        .tips-sidebar {
-            background: #EFF6FF;
+        .editor-container {
+            background: #F8FAFC;
             padding: 1.5rem;
             border-radius: var(--radius-md);
-            border: 1px solid #DBEAFE;
+            max-height: 90vh;
+            overflow-y: auto;
         }
 
-        .tips-sidebar h3 {
-            color: #1E40AF;
+        .full-width {
+            width: 100%;
+            padding: 0.5rem;
+            border: 1px solid #CBD5E1;
+            border-radius: 4px;
+        }
+
+        .mb-2 {
+            margin-bottom: 0.5rem;
+        }
+
+        .mb-3 {
             margin-bottom: 1rem;
         }
 
-        .tips-list li {
-            margin-bottom: 0.75rem;
-            padding-left: 1.5rem;
-            position: relative;
+        .p-3 {
+            padding: 1rem;
         }
 
-        .tips-list li::before {
-            content: "✓";
-            color: #2563EB;
-            position: absolute;
-            left: 0;
-            font-weight: bold;
+        .gap-2 {
+            gap: 0.5rem;
         }
 
-        .cv-form-section {
+        .d-flex {
+            display: flex;
+        }
+
+        .justify-content-between {
+            justify-content: space-between;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            border-bottom: 1px solid #E2E8F0;
+            padding-bottom: 0.5rem;
+        }
+
+        .card {
             background: white;
-            padding: 2rem;
-            border-radius: var(--radius-md);
-            box-shadow: var(--shadow-sm);
-            margin-bottom: 2rem;
-        }
-
-        textarea {
-            width: 100%;
-            padding: 0.75rem;
-            border: 1px solid #E5E7EB;
+            border: 1px solid #E2E8F0;
             border-radius: var(--radius-sm);
-            font-family: inherit;
-            min-height: 100px;
-            resize: vertical;
         }
     </style>
 </head>
 
-<body style="background: #F9FAFB;">
+<body style="background: #F1F5F9;">
 
-    <nav class="navbar">
+    <nav class="navbar no-print">
         <div class="container nav-container">
             <a href="menu.html" class="logo">PIENSA</a>
             <div class="nav-links">
-                <a href="menu.html">Volver al Panel</a>
+                <button class="btn btn-secondary" onclick="window.print()">🖨️ Imprimir PDF</button>
+                <button class="btn btn-primary" onclick="saveCV()">💾 Guardar</button>
             </div>
         </div>
     </nav>
 
-    <header style="background: white; padding: 2rem 0; border-bottom: 1px solid #E5E7EB; margin-bottom: 2rem;">
-        <div class="container">
-            <h1>Constructor de Hoja de Vida</h1>
-            <p style="color: var(--text-muted);">Sigue nuestra estructura probada para destacar tu perfil.</p>
-        </div>
-    </header>
-
-    <main class="container">
+    <main class="container" style="margin-top: 2rem;">
         <div class="split-layout">
 
-            <!-- Sidebar Tips -->
-            <aside class="tips-sidebar">
-                <h3>Tips de Experto</h3>
-                <ul class="tips-list">
-                    <li>Usa verbos de acción (Lideré, Creé, Optimicé).</li>
-                    <li>Cuantifica tus logros (ej: "Aumenté las ventas un 20%").</li>
-                    <li>Adapta tu perfil a la oferta de trabajo.</li>
-                    <li>Mantén el diseño limpio y fácil de leer.</li>
-                    <li>Revisa la ortografía dos veces.</li>
-                </ul>
-                <div style="margin-top: 2rem;">
-                    <h4>Palabras Clave Sugeridas:</h4>
-                    <div style="display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.5rem;">
-                        <span
-                            style="background: white; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.8rem;">Liderazgo</span>
-                        <span
-                            style="background: white; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.8rem;">Trabajo
-                            en equipo</span>
-                        <span
-                            style="background: white; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.8rem;">Resolución
-                            de problemas</span>
+            <!-- EDITOR -->
+            <div class="editor-container no-print" id="cv-form-container">
+                <h2 class="mb-3">Información</h2>
+
+                <section class="mb-3">
+                    <h3>Datos Personales</h3>
+                    <div class="card p-3">
+                        <input type="text" id="fullName" class="full-width mb-2" placeholder="Nombre Completo">
+                        <input type="email" id="email" class="full-width mb-2" placeholder="Correo Electrónico">
+                        <input type="text" id="phone" class="full-width mb-2" placeholder="Teléfono">
+                        <input type="text" id="location" class="full-width mb-2" placeholder="Ciudad, País">
+                        <input type="text" id="linkedin" class="full-width" placeholder="LinkedIn URL">
                     </div>
+                </section>
+
+                <section class="mb-3">
+                    <h3>Perfil Profesional</h3>
+                    <textarea id="profile" class="full-width" rows="4" placeholder="Resumen breve..."></textarea>
+                </section>
+
+                <section class="mb-3">
+                    <div class="section-header">
+                        <h3>Experiencia</h3>
+                        <button class="btn btn-sm btn-secondary" onclick="addExperience()">+ Añadir</button>
+                    </div>
+                    <div id="experience-container"></div>
+                </section>
+
+                <section class="mb-3">
+                    <div class="section-header">
+                        <h3>Educación</h3>
+                        <button class="btn btn-sm btn-secondary" onclick="addEducation()">+ Añadir</button>
+                    </div>
+                    <div id="education-container"></div>
+                </section>
+
+                <section class="mb-3">
+                    <h3>Habilidades</h3>
+                    <textarea id="skills-input" class="full-width" rows="3"
+                        placeholder="Habilidades Técnicas, Idiomas, Herramientas... (separadas por comas)"
+                        oninput="updateSkills()"></textarea>
+                </section>
+            </div>
+
+            <!-- PREVIEW (Harvard Style) -->
+            <div class="cv-preview" id="cv-preview">
+                <header class="cv-header">
+                    <div class="cv-name" id="preview-name">TU NOMBRE</div>
+                    <div class="cv-contact-info" id="preview-contact">Correo | Teléfono | Ubicación</div>
+                </header>
+
+                <div class="cv-section" id="preview-profile-section" style="display: none;">
+                    <div class="cv-section-title">Perfil Profesional</div>
+                    <p id="preview-profile" style="font-size: 11pt;"></p>
                 </div>
-            </aside>
 
-            <!-- Form Content -->
-            <div class="cv-builder">
-                <!-- Profile Section -->
-                <section class="cv-form-section">
-                    <h2 style="margin-bottom: 1rem;">1. Perfil Profesional</h2>
-                    <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 1rem;">
-                        Un breve resumen de quién eres y qué aportas (máx 3-4 líneas).
-                    </p>
-                    <textarea
-                        placeholder="Ej: Estudiante de Administración con pasión por el marketing digital y experiencia liderando proyectos universitarios..."></textarea>
-                </section>
+                <div class="cv-section" id="preview-experience-section" style="display: none;">
+                    <div class="cv-section-title">Experiencia</div>
+                    <div id="preview-experience-list"></div>
+                </div>
 
-                <!-- Experience Section -->
-                <section class="cv-form-section">
-                    <h2 style="margin-bottom: 1rem;">2. Experiencia / Proyectos</h2>
-                    <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 1rem;">
-                        Incluye prácticas, voluntariados o proyectos académicos relevantes.
-                    </p>
-                    <div class="form-group">
-                        <label>Título del Rol</label>
-                        <input type="text" placeholder="Ej: Líder de Proyecto de Grado"
-                            style="width: 100%; padding: 0.5rem; margin-bottom: 1rem; border: 1px solid #ddd;">
-                        <textarea placeholder="Describe tus responsabilidades y logros..."></textarea>
-                    </div>
-                </section>
+                <div class="cv-section" id="preview-education-section" style="display: none;">
+                    <div class="cv-section-title">Educación</div>
+                    <div id="preview-education-list"></div>
+                </div>
 
-                <!-- Education Section -->
-                <section class="cv-form-section">
-                    <h2 style="margin-bottom: 1rem;">3. Educación</h2>
-                    <input type="text" placeholder="Institución Educativa"
-                        style="width: 100%; padding: 0.5rem; margin-bottom: 0.5rem; border: 1px solid #ddd;">
-                    <input type="text" placeholder="Título obtenido / En curso"
-                        style="width: 100%; padding: 0.5rem; margin-bottom: 0.5rem; border: 1px solid #ddd;">
-                </section>
-
-                <div style="text-align: right; margin-bottom: 3rem;">
-                    <button class="btn btn-secondary" onclick="window.print()">Descargar / Imprimir</button>
-                    <button class="btn btn-primary" onclick="saveCV()">Guardar Progreso</button>
+                <div class="cv-section" id="preview-skills-section" style="display: none;">
+                    <div class="cv-section-title">Habilidades</div>
+                    <p id="preview-skills" style="font-size: 11pt;"></p>
                 </div>
             </div>
 
         </div>
     </main>
+
     <script src="js/app.js"></script>
+    <script src="js/cv-builder.js"></script>
     <script type="module">
-        import { db } from './js/firebase-init.js';
-        import { doc, updateDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+        import { db, auth } from './js/firebase-init.js';
+        import { doc, getDoc, setDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+        import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+
+        let currentUser = null;
+
+        // Listen for auth state
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                currentUser = user;
+                loadCV(user.uid);
+            } else {
+                // Not saving/loading if not logged in
+                console.log("No user logged in");
+            }
+        });
+
+        // Load CV Data
+        async function loadCV(uid) {
+            try {
+                const docRef = doc(db, "cvs", uid);
+                const docSnap = await getDoc(docRef);
+
+                if (docSnap.exists()) {
+                    const data = docSnap.data();
+
+                    document.getElementById('fullName').value = data.personal?.fullName || '';
+                    document.getElementById('email').value = data.personal?.email || '';
+                    document.getElementById('phone').value = data.personal?.phone || '';
+                    document.getElementById('location').value = data.personal?.location || '';
+                    document.getElementById('linkedin').value = data.personal?.linkedin || '';
+                    document.getElementById('profile').value = data.profile || '';
+                    document.getElementById('skills-input').value = data.skills || '';
+
+                    // Load Exp
+                    if (data.experience) {
+                        data.experience.forEach(exp => {
+                            addExperience();
+                            const cards = document.querySelectorAll('#experience-container .card');
+                            const lastCard = cards[cards.length - 1];
+                            lastCard.querySelector('.input-exp-role').value = exp.role;
+                            lastCard.querySelector('.input-exp-company').value = exp.company;
+                            lastCard.querySelector('.input-exp-date').value = exp.date;
+                            lastCard.querySelector('.input-exp-loc').value = exp.location;
+                            lastCard.querySelector('.input-exp-desc').value = exp.description;
+                        });
+                    }
+
+                    // Load Edu
+                    if (data.education) {
+                        data.education.forEach(edu => {
+                            addEducation();
+                            const cards = document.querySelectorAll('#education-container .card');
+                            const lastCard = cards[cards.length - 1];
+                            lastCard.querySelector('.input-edu-school').value = edu.school;
+                            lastCard.querySelector('.input-edu-degree').value = edu.degree;
+                            lastCard.querySelector('.input-edu-date').value = edu.date;
+                            lastCard.querySelector('.input-edu-loc').value = edu.location;
+                        });
+                    }
+
+                    // Trigger update
+                    updatePreview();
+                    updateSkills();
+                    if (window.showToast) showToast('CV cargado correctamente', 'success');
+                }
+            } catch (error) {
+                console.error("Error loading CV:", error);
+            }
+        }
 
         window.saveCV = async function () {
-            const userJson = localStorage.getItem('piensaUser');
-            if (!userJson) {
-                alert('Inicia sesión para guardar.');
+            if (!currentUser) {
+                showToast('Debes iniciar sesión para guardar', 'error');
                 return;
             }
-            const user = JSON.parse(userJson);
 
-            // Initialize flags if they don't exist
-            if (!user.progressSteps) user.progressSteps = { cv: false, interview: false, job: false };
+            const cvData = {
+                personal: {
+                    fullName: document.getElementById('fullName').value,
+                    email: document.getElementById('email').value,
+                    phone: document.getElementById('phone').value,
+                    location: document.getElementById('location').value,
+                    linkedin: document.getElementById('linkedin').value,
+                },
+                profile: document.getElementById('profile').value,
+                skills: document.getElementById('skills-input').value,
+                experience: [],
+                education: [],
+                updatedAt: new Date()
+            };
+
+            // Collect Exp
+            document.querySelectorAll('#experience-container .card').forEach(card => {
+                cvData.experience.push({
+                    role: card.querySelector('.input-exp-role').value,
+                    company: card.querySelector('.input-exp-company').value,
+                    date: card.querySelector('.input-exp-date').value,
+                    location: card.querySelector('.input-exp-loc').value,
+                    description: card.querySelector('.input-exp-desc').value,
+                });
+            });
+
+            // Collect Edu
+            document.querySelectorAll('#education-container .card').forEach(card => {
+                cvData.education.push({
+                    school: card.querySelector('.input-edu-school').value,
+                    degree: card.querySelector('.input-edu-degree').value,
+                    date: card.querySelector('.input-edu-date').value,
+                    location: card.querySelector('.input-edu-loc').value,
+                });
+            });
 
             try {
-                const userRef = doc(db, "users", user.uid);
-                let updates = {};
-                let message = '¡Borrador guardado!';
-
-                // Check if this goal is already achieved
-                if (!user.progressSteps.cv) {
-                    const currentProgress = user.perfilCompletado || 10;
-                    const newProgress = Math.min(currentProgress + 40, 100);
-
-                    updates = {
-                        perfilCompletado: newProgress,
-                        "progressSteps.cv": true
-                    };
-
-                    user.perfilCompletado = newProgress;
-                    user.progressSteps.cv = true;
-                    message = `¡Felicidades! Tu perfil ha subido al ${newProgress}%.`;
-                }
-
-                if (Object.keys(updates).length > 0) {
-                    await updateDoc(userRef, updates);
-                    localStorage.setItem('piensaUser', JSON.stringify(user));
-                }
-
-                alert(message);
-                window.location.href = 'menu.html';
+                await setDoc(doc(db, "cvs", currentUser.uid), cvData);
+                showToast('CV guardado exitosamente', 'success');
             } catch (error) {
-                console.error("Error:", error);
-                alert('Error al guardar.');
+                console.error("Error saving CV:", error);
+                showToast('Error al guardar CV', 'error');
             }
         }
     </script>
 </body>
+
 
 </html>

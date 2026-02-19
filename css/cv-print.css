@@ -1,0 +1,128 @@
+/* Harvard CV Print Styles */
+@media print {
+    @page {
+        margin: 0.5cm;
+        size: letter;
+    }
+
+    body {
+        background: white;
+        color: black;
+        font-family: 'Times New Roman', Times, serif;
+        /* Classic Harvard font */
+    }
+
+    /* Hide non-CV elements */
+    .navbar,
+    .tips-sidebar,
+    .cv-form-section,
+    header,
+    footer,
+    button,
+    #toast-container,
+    .no-print {
+        display: none !important;
+    }
+
+    /* CV Container */
+    .cv-preview {
+        display: block !important;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        margin: 0;
+        padding: 0;
+        box-shadow: none;
+        border: none;
+    }
+
+    .split-layout {
+        display: block;
+    }
+
+    /* CV Typography & Layout */
+    .cv-header {
+        text-align: center;
+        border-bottom: 1px solid black;
+        padding-bottom: 10px;
+        margin-bottom: 15px;
+    }
+
+    .cv-name {
+        font-size: 24pt;
+        font-weight: bold;
+        text-transform: uppercase;
+        margin-bottom: 5px;
+    }
+
+    .cv-contact-info {
+        font-size: 11pt;
+        margin-bottom: 5px;
+    }
+
+    .cv-section {
+        margin-bottom: 15px;
+    }
+
+    .cv-section-title {
+        font-size: 14pt;
+        font-weight: bold;
+        border-bottom: 1px solid black;
+        margin-bottom: 10px;
+        text-transform: uppercase;
+    }
+
+    .cv-item {
+        margin-bottom: 10px;
+    }
+
+    .cv-item-header {
+        display: flex;
+        justify-content: space-between;
+        font-weight: bold;
+        font-size: 12pt;
+    }
+
+    .cv-item-subheader {
+        display: flex;
+        justify-content: space-between;
+        font-style: italic;
+        font-size: 11pt;
+        margin-bottom: 3px;
+    }
+
+    .cv-item-details {
+        font-size: 11pt;
+        line-height: 1.4;
+    }
+
+    ul.cv-bullets {
+        margin: 0;
+        padding-left: 1.5em;
+    }
+
+    ul.cv-bullets li {
+        margin-bottom: 2px;
+    }
+}
+
+/* Screen Styles for Preview */
+.cv-preview {
+    background: white;
+    padding: 4rem;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    min-height: 29.7cm;
+    /* A4 height */
+    margin-bottom: 2rem;
+    font-family: 'Times New Roman', Times, serif;
+    color: #333;
+    display: none;
+    /* Hidden by default in mobile/tablet if needed, or controlled by JS */
+}
+
+@media screen and (min-width: 1024px) {
+    .cv-preview {
+        display: block;
+    }
+}

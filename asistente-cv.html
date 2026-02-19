@@ -21,8 +21,7 @@
 
             <button type="button" class="cv-btn cv-btn-dark" onclick="printCV()">Imprimir</button>
 
-            <button type="button" class="cv-btn cv-btn-dark" onclick="window.print()">Imprimir</button>
- 
+
             <button type="button" class="cv-btn cv-btn-secondary" onclick="downloadPDF()">Descargar PDF</button>
         </div>
         <div id="save-status" class="save-status" aria-live="polite">Sin cambios</div>
@@ -245,38 +244,14 @@
                 if (window.setSaveStatus) window.setSaveStatus('Error al guardar', true);
                 if (!silent && window.showToast) window.showToast('Error al guardar CV', 'error');
             }
- codex/provide-recommendations-bjmnsl
         }
 
         window.printCV = function printCV() {
-            const originalTitle = document.title;
-            document.body.classList.add('printing-cv');
-            document.title = '';
-
-            const cleanup = () => {
-                document.body.classList.remove('printing-cv');
-                document.title = originalTitle;
-                window.removeEventListener('afterprint', cleanup);
-            };
-
-            window.addEventListener('afterprint', cleanup, { once: true });
-
             window.print();
-
-            setTimeout(() => {
-                if (document.body.classList.contains('printing-cv')) {
-                    cleanup();
-                }
-            }, 1200);
         }
 
         window.downloadPDF = function downloadPDF() {
             window.printCV();
- main
-        }
-
-        window.downloadPDF = function downloadPDF() {
-            window.print();
         }
     </script>
 </body>
